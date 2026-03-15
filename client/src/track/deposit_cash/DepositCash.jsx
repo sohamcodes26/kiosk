@@ -20,6 +20,7 @@ const DepositCash = () => {
   });
 
   const noteValues = [2000, 500, 200, 100, 50, 20, 10, 5];
+  const MAX_NOTES = 1000;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -35,7 +36,6 @@ const DepositCash = () => {
   };
 
   const handleLogout = () => {
-    // 3. Instead of navigating, just open the popup!
     setIsLogoutOpen(true); 
   };
   const handleBack = () => navigate('/services');
@@ -44,25 +44,36 @@ const DepositCash = () => {
     setAccountNumber('098765432100');
   };
 
-  // Handle + and - buttons
+  // Handle + and - buttons with limits
   const updateNoteCount = (value, increment) => {
     setNotes(prev => {
       const currentCount = Number(prev[value]) || 0;
-      const newCount = increment ? currentCount + 1 : Math.max(0, currentCount - 1);
+      let newCount = increment ? currentCount + 1 : currentCount - 1;
+      
+      // Enforce limits
+      if (newCount < 0) newCount = 0;
+      if (newCount > MAX_NOTES) newCount = MAX_NOTES;
+
       return { ...prev, [value]: newCount };
     });
   };
 
-  // Handle manual typing in the input box
+  // Handle manual typing in the input box with limits
   const handleNoteInputChange = (value, inputValue) => {
-    // Allow empty string so users can delete the number before typing a new one
     if (inputValue === '') {
       setNotes(prev => ({ ...prev, [value]: '' }));
       return;
     }
+    
     const count = parseInt(inputValue, 10);
-    if (!isNaN(count) && count >= 0) {
-      setNotes(prev => ({ ...prev, [value]: count }));
+    if (!isNaN(count)) {
+      if (count < 0) {
+        setNotes(prev => ({ ...prev, [value]: 0 }));
+      } else if (count > MAX_NOTES) {
+        setNotes(prev => ({ ...prev, [value]: MAX_NOTES }));
+      } else {
+        setNotes(prev => ({ ...prev, [value]: count }));
+      }
     }
   };
 
@@ -81,7 +92,7 @@ const DepositCash = () => {
       alert("Please enter the deposit amount.");
       return;
     }
-    // Navigate and pass state!
+    // Navigate and pass state
     navigate('/deposit-preview', { state: { accountNumber, notes } });
   };
 
@@ -148,48 +159,67 @@ const DepositCash = () => {
               <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase mb-4">
                 Amount Breakdown
               </p>
+              {/* Reduced gap-y from 4 to 3 to save vertical space */}
               <div className="grid grid-cols-2 gap-x-8 gap-y-3">
-                {noteValues.map((val) => (
-                  <div key={val} className="flex items-center justify-between bg-[#ededed] border border-gray-100 p-2 rounded">
-                    <span className="font-semibold text-gray-800 text-sm w-12">₹ {val}</span>
-                    <div className="flex items-center gap-2">
+                {noteValues.map((val) => {
+                  const currentCount = notes[val] === '' ? 0 : Number(notes[val]);
+                  
+                  return (
+                    // Reduced padding slightly (p-2.5)
+                    <div key={val} className="flex items-center justify-between bg-[#ededed] border border-gray-100 p-2.5 rounded-md shadow-sm">
+                      <span className="font-semibold text-gray-800 text-base w-14">₹ {val}</span>
                       
-                      {/* Editable Input Display */}
-                      <style>{`
-                        /* Hides up/down arrows in number inputs */
-                        input[type=number]::-webkit-inner-spin-button, 
-                        input[type=number]::-webkit-outer-spin-button { 
-                          -webkit-appearance: none; 
-                          margin: 0; 
-                        }
-                      `}</style>
-                      <input 
-                        type="number"
-                        value={notes[val]}
-                        onChange={(e) => handleNoteInputChange(val, e.target.value)}
-                        className="border border-[#2563eb] text-[#2563eb] bg-white font-bold w-14 text-center py-1 rounded-sm outline-none focus:ring-1 focus:ring-blue-500"
-                        style={{ MozAppearance: 'textfield' }} // Firefox fallback
-                      />
+                      <div className="flex items-center gap-2.5">
+                        
+                        {/* Editable Input Display */}
+                        <style>{`
+                          /* Hides up/down arrows in number inputs */
+                          input[type=number]::-webkit-inner-spin-button, 
+                          input[type=number]::-webkit-outer-spin-button { 
+                            -webkit-appearance: none; 
+                            margin: 0; 
+                          }
+                        `}</style>
+                        
+                        {/* Slightly scaled down input size */}
+                        <input 
+                          type="number"
+                          value={notes[val]}
+                          onChange={(e) => handleNoteInputChange(val, e.target.value)}
+                          className="border border-[#2563eb] text-[#2563eb] bg-white font-bold text-lg w-16 text-center py-1.5 rounded-sm outline-none focus:ring-1 focus:ring-blue-500 shadow-inner"
+                          style={{ MozAppearance: 'textfield' }} // Firefox fallback
+                        />
 
-                      {/* Darkened Minus Button */}
-                      <button 
-                        onClick={() => updateNoteCount(val, false)}
-                        className="bg-[#94a3b8] hover:bg-[#64748b] text-white w-8 py-1 rounded-sm font-bold text-lg leading-none active:scale-95 transition-colors"
-                      >
-                        -
-                      </button>
+                        {/* Minus Button with Disabled State */}
+                        <button 
+                          onClick={() => updateNoteCount(val, false)}
+                          disabled={currentCount <= 0}
+                          className={`w-9 py-1.5 rounded-sm font-bold text-xl leading-none transition-colors flex items-center justify-center ${
+                            currentCount <= 0 
+                              ? 'bg-gray-300 text-gray-400 cursor-not-allowed' 
+                              : 'bg-[#94a3b8] hover:bg-[#64748b] text-white active:scale-95'
+                          }`}
+                        >
+                          -
+                        </button>
 
-                      {/* Plus Button */}
-                      <button 
-                        onClick={() => updateNoteCount(val, true)}
-                        className="bg-[#213f99] hover:bg-[#1a337a] text-white w-8 py-1 rounded-sm font-bold text-lg leading-none active:scale-95 transition-colors"
-                      >
-                        +
-                      </button>
+                        {/* Plus Button with Disabled State */}
+                        <button 
+                          onClick={() => updateNoteCount(val, true)}
+                          disabled={currentCount >= MAX_NOTES}
+                          className={`w-9 py-1.5 rounded-sm font-bold text-xl leading-none transition-colors flex items-center justify-center ${
+                            currentCount >= MAX_NOTES
+                              ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
+                              : 'bg-[#213f99] hover:bg-[#1a337a] text-white active:scale-95'
+                          }`}
+                        >
+                          +
+                        </button>
 
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
             

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Cash Withdrawal Slip – Bank of Maharashtra</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+  body {
+    background: #bbb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+  /* ── OUTER SLIP: aspect ratio ~2000:820 (trimmed height) ── */
+  .slip {
+    width: 1000px;
+    background: #fff;
+    border: 2px solid #111;
+    display: flex;
+    flex-direction: column;
+    font-size: 12.5px;
+    color: #111;
+  }
+
+  /* ══ TITLE ══ */
+  .title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+    font-family: Arial Black, Arial, sans-serif;
+    border-bottom: 2px solid #111;
+    padding: 6px 8px 5px;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+
+  /* ══ HEADER ROW ══ */
+  .header-row {
+    display: flex;
+    border-bottom: 2px solid #111;
+    height: 78px;
+  }
+
+  .logo-box {
+    width: 152px;
+    flex-shrink: 0;
+    border-right: 2px solid #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 4px 6px;
+  }
+  .logo-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%; border: 2px solid #666;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; background: #f0f0f0;
+  }
+  .bank-name-block {
+    background: #8B0000; color: #fff;
+    text-align: center; padding: 2px 4px; width: 100%; line-height: 1.35;
+  }
+  .bank-name-block .bm { font-size: 8.5px; }
+  .bank-name-block .be { font-size: 11px; font-weight: 900; }
+  .bank-name-block .bt { font-size: 7.5px; color: #ffd; }
+  .logo-sub { font-size: 8.5px; font-weight: bold; margin-top: 1px; }
+
+  .instructions {
+    flex: 1;
+    padding: 5px 10px;
+    font-size: 10px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1px;
+  }
+
+  /* ══ BRANCH / DATE ══ */
+  .branch-date-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 2px solid #111;
+    height: 38px;
+  }
+
+  .branch-sec {
+    flex: 1;
+    border-right: 2px solid #111;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 6px;
+  }
+  .branch-sec label {
+    font-weight: bold; font-size: 13px; white-space: nowrap;
+    border: 1.5px solid #111; padding: 3px 6px;
+  }
+  .branch-sec input {
+    flex: 1; border: none; border-bottom: 1.5px solid #555;
+    outline: none; font-size: 13px; font-family: inherit; padding: 1px 3px;
+  }
+
+  .date-sec {
+    display: flex; align-items: center;
+    padding: 0 10px; gap: 8px; flex-shrink: 0;
+  }
+  .date-sec label { font-weight: bold; font-size: 13px; white-space: nowrap; }
+  .date-boxes { display: flex; }
+  .dbox {
+    width: 26px; height: 28px;
+    border: 1.5px solid #333;
+    border-left: none;
+    text-align: center; font-size: 13px;
+    outline: none; font-family: inherit;
+  }
+  .dbox:first-child { border-left: 1.5px solid #333; }
+
+  /* ══ PAY LINES ══ */
+  .pay-section {
+    border-bottom: 2px solid #111;
+    padding: 4px 10px 3px;
+  }
+  .pay-line {
+    display: flex; align-items: flex-end;
+    gap: 4px; margin-bottom: 1px; font-size: 13px;
+  }
+  .pay-line label { white-space: nowrap; }
+  .pay-line input {
+    flex: 1; border: none; border-bottom: 1.5px solid #555;
+    outline: none; font-size: 13px; font-family: inherit; padding: 0 3px;
+  }
+  .pay-line .sfx { white-space: nowrap; font-weight: bold; font-size: 13px; }
+
+  /* ══ ACCOUNT NO ROW ══ */
+  .ac-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 2px solid #111;
+    height: 52px;
+  }
+
+  .ac-left {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    overflow: hidden;
+    border-right: 2px solid #111;
+  }
+
+  .ac-label {
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1.5;
+    border-right: 1.5px solid #111;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .ac-digits {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .abox {
+    flex: 1;
+    min-width: 0;
+    width: 0; /* force equal shrink */
+    border: none;
+    border-right: 1.5px solid #555;
+    text-align: center;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+  }
+  .abox:last-child { border-right: none; }
+
+  .ac-right {
+    width: 210px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4px 8px;
+    font-size: 11.5px;
+    font-weight: bold;
+    line-height: 1.65;
+  }
+
+  /* ══ NAME + AMOUNT ══ */
+  .name-amount-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 2px solid #111;
+    height: 80px;
+  }
+
+  .name-sec {
+    flex: 1;
+    border-right: 2px solid #111;
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .name-line {
+    display: flex; align-items: flex-end; gap: 6px; font-size: 12.5px;
+  }
+  .name-line label { white-space: nowrap; }
+  .name-line input {
+    flex: 1; min-width: 0;
+    border: none; border-bottom: 1.5px solid #555;
+    outline: none; font-size: 13px; font-family: inherit; padding: 0 3px;
+  }
+
+  /* Amount box — right column, same width as ac-right */
+  .amount-col {
+    width: 210px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+  }
+  .amount-inner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #444;
+  }
+  .rupee-cell {
+    width: 40px;
+    flex-shrink: 0;
+    background: #d8d8d8;
+    border-right: 2px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .amount-input {
+    flex: 1;
+    min-width: 0;
+    border: none; outline: none;
+    font-size: 14px; font-family: inherit;
+    padding: 3px 6px; text-align: right;
+  }
+
+  /* ══ SIGNATURE ROW ══ */
+  .sig-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1.5px solid #111;
+    height: 64px;
+  }
+  .sig-left {
+    flex: 1;
+    border-right: 2px solid #111;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .sig-right {
+    flex: 1;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .sig-line { display: flex; align-items: flex-end; gap: 4px; }
+  .uline {
+    flex: 1;
+    border-bottom: 1.5px solid #333;
+    min-width: 80px;
+  }
+
+  /* ══ FOOTER ══ */
+  .footer {
+    text-align: right;
+    padding: 3px 10px;
+    font-size: 10px;
+    color: #444;
+  }
+
+  /* Print button */
+  
+</style>
+</head>
+<body>
+
+<div class="slip">
+
+  <!-- TITLE -->
+  <div class="title">CASH WITHDRAWAL SLIP / पैसे काढावयाचे चलन /&nbsp; नकद आहर्ता पर्ची</div>
+
+  <!-- HEADER -->
+  <div class="header-row">
+    <div class="logo-box">
+      <div class="logo-circle">🏛</div>
+      <div class="bank-name-block">
+        <div class="bm">बँक ऑफ महाराष्ट्र</div>
+        <div class="be">Bank of Maharashtra</div>
+        <div class="bt">एक परिवार एक बँक</div>
+      </div>
+      <div class="logo-sub">एक परिवार एक बँक</div>
+    </div>
+    <div class="instructions">
+      <p>बँकेतून पैसे काढावयाच्या चलनाबरोबर खाते पुस्तिका आवश्यक आहे. कृपया मागे सही करावी. हे चलन म्हणजे चेक नव्हे. केवळ मूळ शाखेत वापरण्यासाठी</p>
+      <p>इस निकासी पर्ची के साथ पासबुक होना जरुरी हैं । कृपया पिछली और हस्ताक्षर करें । यह आहरण पर्ची चेक नहीं हैं । केवल मूल शाखा में प्रचुक्त हेतु ।</p>
+      <p><strong>Pass Book must accompany with this withdrawal. Please sign overleaf. This withdrawal slip is not cheque. Use at home branch only.</strong></p>
+    </div>
+  </div>
+
+  <!-- BRANCH / DATE -->
+  <div class="branch-date-row">
+    <div class="branch-sec">
+      <label>शाखा/ Branch</label>
+      <input type="text"/>
+    </div>
+    <div class="date-sec">
+      <label>दिनांक / Date :</label>
+      <div class="date-boxes">
+        <input class="dbox" type="text" maxlength="1"/>
+        <input class="dbox" type="text" maxlength="1"/>
+        <input class="dbox" type="text" maxlength="1"/>
+        <input class="dbox" type="text" maxlength="1"/>
+        <input class="dbox" type="text" maxlength="1"/>
+        <input class="dbox" type="text" maxlength="1"/>
+        <input class="dbox" type="text" maxlength="1"/>
+        <input class="dbox" type="text" maxlength="1"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAY LINES -->
+  <div class="pay-section">
+    <div class="pay-line">
+      <label>कृपया, मला वा धारकाला ₹ .</label>
+      <input type="text"/>
+    </div>
+    <div class="pay-line">
+      <label>वाहक/स्वत: को ₹ .</label>
+      <input type="text"/>
+    </div>
+    <div class="pay-line">
+      <label>Pay Bearer/Self the sum of ₹ .</label>
+      <input type="text"/>
+      <span class="sfx">debiting</span>
+    </div>
+  </div>
+
+  <!-- ACCOUNT NO -->
+  <div class="ac-row">
+    <div class="ac-left">
+      <div class="ac-label">बचत खाते क्र.<br/>बचत खाता क्र.<br/>Saving A/c No.</div>
+      <div class="ac-digits">
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+        <input class="abox" type="text" maxlength="1"/>
+      </div>
+    </div>
+    <div class="ac-right">
+      ला नावे टाकून रोख द्यावेत.<br/>
+      में नामे डालकर नकद अदा करें।
+    </div>
+  </div>
+
+  <!-- NAME + AMOUNT -->
+  <div class="name-amount-row">
+    <div class="name-sec">
+      <div class="name-line">
+        <label>खातेदाराचे नांव</label>
+        <input type="text"/>
+      </div>
+      <div class="name-line">
+        <label>खाताधारक का नाम</label>
+        <input type="text"/>
+      </div>
+      <div class="name-line">
+        <label>in Name of A/c.</label>
+        <input type="text"/>
+      </div>
+    </div>
+    <div class="amount-col">
+      <div class="amount-inner">
+        <div class="rupee-cell">₹</div>
+        <input class="amount-input" type="text"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURES -->
+  <div class="sig-row">
+    <div class="sig-left">
+      <div>खातेदाराची स्वाक्षरी</div>
+      <div>खाताधारक के हस्ताक्षर</div>
+      <div class="sig-line">A/c. Holder's Signature <span class="uline"></span></div>
+    </div>
+    <div class="sig-right">
+      <div>पासकर्ता अधिकारी/निरीक्षक/कर्मचान्याची स्वाक्षरी</div>
+      <div>पासकर्ता अधिकारी/निरीक्षक/कर्मचारी के हस्ताक्षर</div>
+      <div class="sig-line"><strong>Signature of Passing Officer/Supervisor/Employee</strong>&nbsp;<span class="uline"></span></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">◄ &nbsp; F-24C/PAD/SBF/2019</div>
+
+</div>
+
+<script>
+  const dboxes = document.querySelectorAll('.dbox');
+  dboxes.forEach((b,i) => {
+    b.addEventListener('input', () => { if(b.value && i < dboxes.length-1) dboxes[i+1].focus(); });
+    b.addEventListener('keydown', e => { if(e.key==='Backspace' && !b.value && i>0) dboxes[i-1].focus(); });
+  });
+  const aboxes = document.querySelectorAll('.abox');
+  aboxes.forEach((b,i) => {
+    b.addEventListener('input', () => { if(b.value && i < aboxes.length-1) aboxes[i+1].focus(); });
+    b.addEventListener('keydown', e => { if(e.key==='Backspace' && !b.value && i>0) aboxes[i-1].focus(); });
+  });
+</script>
+</body>
+</html>

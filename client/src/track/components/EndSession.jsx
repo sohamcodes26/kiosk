@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../../LanguageContext';
+import useSpeech from './useSpeech';
 
 const EndSession = () => {
   const navigate = useNavigate();
@@ -39,6 +40,9 @@ const EndSession = () => {
   const [countdown, setCountdown] = useState(60);
   const userName = "Soham Kolte"; 
 
+  // Mount Audio Effect
+  useSpeech(audioText);
+
   // Session Time Tracker
   useEffect(() => {
     const timer = setInterval(() => {
@@ -46,39 +50,6 @@ const EndSession = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  // Text-to-Speech
-  useEffect(() => {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(audioText);
-    
-    utterance.lang = language === 'mr' ? 'mr-IN' : 'en-US';
-    utterance.rate = 1.0; 
-    utterance.pitch = 1.0; 
-
-    const setFemaleVoiceAndSpeak = () => {
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(voice => 
-        (language === 'mr' && voice.lang.includes('mr')) ||
-        (voice.lang.includes('en') && voice.name.includes('Google US English'))
-      );
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
-      }
-      window.speechSynthesis.speak(utterance);
-    };
-
-    if (window.speechSynthesis.getVoices().length > 0) {
-      setFemaleVoiceAndSpeak();
-    } else {
-      window.speechSynthesis.onvoiceschanged = setFemaleVoiceAndSpeak;
-    }
-
-    return () => {
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.onvoiceschanged = null; 
-    };
-  }, [audioText, language]);
 
   // 60-Second Countdown
   useEffect(() => {

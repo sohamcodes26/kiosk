@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import LogoutScreen from '../components/LogoutScreen';
+import { useLanguage } from '../../LanguageContext';
+import useSpeech from '../components/useSpeech';
 
 const DepositDD = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
+  useSpeech(t.enterDdDetail);
+
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   
-  // State for form fields (pulling from router state if navigating back from a preview)
+  // State for form fields
   const [accountNumber, setAccountNumber] = useState(location.state?.accountNumber || '');
   const [ddNumber, setDdNumber] = useState(location.state?.ddNumber || '');
   const [ddAmount, setDdAmount] = useState(location.state?.ddAmount || '');
@@ -42,9 +47,9 @@ const DepositDD = () => {
   };
 
   const handleLogout = () => {
-    // 3. Instead of navigating, just open the popup!
     setIsLogoutOpen(true); 
   };
+  
   const handleBack = () => navigate('/services');
 
   const handleDepositToSelf = () => {
@@ -72,14 +77,15 @@ const DepositDD = () => {
         isOpen={isLogoutOpen} 
         onClose={() => setIsLogoutOpen(false)} 
       />
+      
       {/* Header */}
       <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
         <div>
-          <h1 className="text-xl font-semibold tracking-wide">Welcome, {userName}</h1>
+          <h1 className="text-xl font-semibold tracking-wide">{t.welcome}, {userName}</h1>
         </div>
         <div>
           <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            Logout
+            {t.logout}
           </button>
         </div>
       </header>
@@ -93,7 +99,7 @@ const DepositDD = () => {
             <ArrowLeft size={36} className="text-black" />
           </button>
           <h2 className="text-[34px] font-semibold text-black">
-            Please enter receivers and DD detail
+            {t.enterDdDetail}
           </h2>
         </div>
 
@@ -105,15 +111,15 @@ const DepositDD = () => {
             {/* Left Column: Receiver Account */}
             <div className="w-[35%] flex flex-col pr-8 border-r border-gray-200">
               <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase mb-6">
-                Receiver Account
+                {t.receiverAccount}
               </p>
               
               <div className="flex flex-col gap-5">
                 <div>
-                  <label className={labelStyle}>Account Number</label>
+                  <label className={labelStyle}>{t.accountNumber}</label>
                   <input 
                     type="text" 
-                    placeholder="Enter Account Number"
+                    placeholder={t.enterAccountNumber}
                     value={accountNumber}
                     onChange={(e) => setAccountNumber(e.target.value)}
                     className={inputStyle}
@@ -124,7 +130,7 @@ const DepositDD = () => {
                   onClick={handleDepositToSelf}
                   className="bg-[#213f99] hover:bg-[#1a337a] text-white font-bold py-3 rounded shadow-sm transition-colors active:scale-95"
                 >
-                  Deposit to Self
+                  {t.depositToSelf}
                 </button>
               </div>
             </div>
@@ -132,15 +138,15 @@ const DepositDD = () => {
             {/* Right Column: DD Details */}
             <div className="flex-1 pl-8">
               <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase mb-6">
-                DD Details
+                {t.ddDetails}
               </p>
               
               <div className="flex flex-col gap-5">
                 <div>
-                  <label className={labelStyle}>DD Number</label>
+                  <label className={labelStyle}>{t.ddNumber}</label>
                   <input 
                     type="text" 
-                    placeholder="Enter DD Number"
+                    placeholder={t.enterDdNumber}
                     value={ddNumber}
                     onChange={(e) => setDdNumber(e.target.value)}
                     className={inputStyle}
@@ -148,10 +154,10 @@ const DepositDD = () => {
                 </div>
 
                 <div>
-                  <label className={labelStyle}>DD Amount (₹)</label>
+                  <label className={labelStyle}>{t.ddAmount}</label>
                   <input 
                     type="number" 
-                    placeholder="Enter Amount"
+                    placeholder={t.enterAmount}
                     value={ddAmount}
                     onChange={(e) => setDdAmount(e.target.value)}
                     className={inputStyle}
@@ -164,13 +170,13 @@ const DepositDD = () => {
                 </div>
 
                 <div>
-                  <label className={labelStyle}>Issuing Bank</label>
+                  <label className={labelStyle}>{t.issuingBank}</label>
                   <select 
                     value={issuingBank}
                     onChange={(e) => setIssuingBank(e.target.value)}
                     className={`${inputStyle} bg-white cursor-pointer`}
                   >
-                    <option value="" disabled>-- Select Bank --</option>
+                    <option value="" disabled>{t.selectBank}</option>
                     {bankOptions.map((bank, index) => (
                       <option key={index} value={bank}>{bank}</option>
                     ))}
@@ -189,7 +195,7 @@ const DepositDD = () => {
               onClick={handleConfirmDeposit}
               className="bg-[#22c55e] hover:bg-green-600 text-white font-bold text-xl py-3.5 px-12 rounded-md shadow-md transition-all active:scale-95"
             >
-              Confirm Deposit
+              {t.confirmDeposit}
             </button>
           </div>
 
@@ -204,7 +210,7 @@ const DepositDD = () => {
           </span>
         </div>
         <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
-          2026 Bank Kiosk Secure Session
+          {t.secureSession}
         </div>
         <div className="w-1/3"></div>
       </footer>

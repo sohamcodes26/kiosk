@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import LogoutScreen from '../components/LogoutScreen';
+import { useLanguage } from '../../LanguageContext';
+import useSpeech from '../components/useSpeech';
 
 const WithdrawalCash = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage(); // Grab the translation dictionary
   
-  // Pre-fill amount if it was passed back from the preview screen!
+  // Custom hook handling the dynamic voice!
+  useSpeech(t.enterWithdrawalAmount);
+  
+  // Pre-fill amount if it was passed back from the preview screen
   const [amount, setAmount] = useState(location.state?.amount || '');
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
@@ -27,7 +33,6 @@ const WithdrawalCash = () => {
   };
 
   const handleLogout = () => {
-    // 3. Instead of navigating, just open the popup!
     setIsLogoutOpen(true); 
   };
 
@@ -40,6 +45,10 @@ const WithdrawalCash = () => {
   };
 
   const handleConfirm = () => {
+    if (!amount) {
+      alert("Please enter an amount.");
+      return;
+    }
     // Pass the current amount to the next screen through the router state
     navigate('/withdrawal-preview', { state: { amount } });
   };
@@ -50,14 +59,17 @@ const WithdrawalCash = () => {
         isOpen={isLogoutOpen} 
         onClose={() => setIsLogoutOpen(false)} 
       />
+      
       {/* Header */}
       <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
         <div>
-          <h1 className="text-xl font-semibold tracking-wide">Welcome, {userName}</h1>
+          <h1 className="text-xl font-semibold tracking-wide">
+            {t.welcome}, {userName}
+          </h1>
         </div>
         <div>
           <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            Logout
+            {t.logout}
           </button>
         </div>
       </header>
@@ -71,7 +83,7 @@ const WithdrawalCash = () => {
             <ArrowLeft size={36} className="text-black" />
           </button>
           <h2 className="text-[34px] font-semibold text-black">
-            Please enter amount for withdrawal
+            {t.enterWithdrawalAmount}
           </h2>
         </div>
 
@@ -88,7 +100,9 @@ const WithdrawalCash = () => {
         </div>
 
         {/* Quick Select Divider */}
-        <p className="text-[#849bc0] font-bold text-sm tracking-widest mb-6">SELECT AMOUNT</p>
+        <p className="text-[#849bc0] font-bold text-sm tracking-widest mb-6">
+          {t.selectAmount}
+        </p>
 
         {/* Quick Select Buttons */}
         <div className="w-full max-w-3xl flex gap-6 mb-12">
@@ -109,7 +123,7 @@ const WithdrawalCash = () => {
           onClick={handleConfirm}
           className="bg-[#27ae60] hover:bg-[#219653] text-white font-bold text-2xl py-4 px-32 rounded-lg shadow-md transition-all active:scale-95"
         >
-          Confirm
+          {t.confirm}
         </button>
 
       </main>
@@ -122,7 +136,7 @@ const WithdrawalCash = () => {
           </span>
         </div>
         <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
-          2026 Bank Kiosk Secure Session
+          {t.secureSession}
         </div>
         <div className="w-1/3"></div>
       </footer>

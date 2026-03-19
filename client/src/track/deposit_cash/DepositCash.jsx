@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import LogoutScreen from '../components/LogoutScreen';
+import { useLanguage } from '../../LanguageContext';
+import useSpeech from '../components/useSpeech';
 
 const DepositCash = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
+  useSpeech(t.enterReceiverDetail);
   
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
@@ -107,11 +111,11 @@ const DepositCash = () => {
       {/* Header */}
       <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
         <div>
-          <h1 className="text-xl font-semibold tracking-wide">Welcome, {userName}</h1>
+          <h1 className="text-xl font-semibold tracking-wide">{t.welcome}, {userName}</h1>
         </div>
         <div>
           <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            Logout
+            {t.logout}
           </button>
         </div>
       </header>
@@ -125,7 +129,7 @@ const DepositCash = () => {
             <ArrowLeft size={36} className="text-black" />
           </button>
           <h2 className="text-[34px] font-semibold text-black">
-            Please enter receivers detail
+            {t.enterReceiverDetail}
           </h2>
         </div>
 
@@ -137,11 +141,11 @@ const DepositCash = () => {
             {/* Left Column: Receiver Account */}
             <div className="w-1/3 flex flex-col gap-4 pr-10 border-r border-gray-200">
               <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase">
-                Receiver Account
+                {t.receiverAccount}
               </p>
               <input 
                 type="text" 
-                placeholder="Enter Account Number"
+                placeholder={t.enterAccountNumber}
                 value={accountNumber}
                 onChange={(e) => setAccountNumber(e.target.value)}
                 className="border border-gray-300 rounded p-3 text-lg outline-none focus:border-[#004b9b]"
@@ -150,14 +154,14 @@ const DepositCash = () => {
                 onClick={handleDepositToSelf}
                 className="bg-[#213f99] hover:bg-[#1a337a] text-white font-bold py-3 rounded shadow-sm transition-colors active:scale-95"
               >
-                Deposit to Self
+                {t.depositToSelf}
               </button>
             </div>
 
             {/* Right Column: Amount Breakdown */}
             <div className="w-2/3 pl-10">
               <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase mb-4">
-                Amount Breakdown
+                {t.amountBreakdown}
               </p>
               {/* Reduced gap-y from 4 to 3 to save vertical space */}
               <div className="grid grid-cols-2 gap-x-8 gap-y-3">
@@ -228,7 +232,7 @@ const DepositCash = () => {
           {/* Bottom Row: Total & Confirm */}
           <div className="flex justify-between items-end">
             <div>
-              <p className="text-gray-800 font-bold text-lg">Total Amount</p>
+              <p className="text-gray-800 font-bold text-lg">{t.totalAmount}</p>
               <p className="text-[#1e3a8a] font-bold text-[32px] leading-none">
                 ₹ {totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </p>
@@ -237,7 +241,7 @@ const DepositCash = () => {
               onClick={handleConfirmDeposit}
               className="bg-[#22c55e] hover:bg-green-600 text-white font-bold text-xl py-4 px-16 rounded-md shadow-md transition-all active:scale-95"
             >
-              Confirm Deposit
+              {t.confirmDeposit}
             </button>
           </div>
 
@@ -252,7 +256,7 @@ const DepositCash = () => {
           </span>
         </div>
         <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
-          2026 Bank Kiosk Secure Session
+          {t.secureSession}
         </div>
         <div className="w-1/3"></div>
       </footer>

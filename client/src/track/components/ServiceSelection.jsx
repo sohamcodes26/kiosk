@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import LogoutScreen from './LogoutScreen';
 import { useLanguage } from '../../LanguageContext'; 
 
+import useSpeech from './useSpeech';
+
 const ServiceSelection = () => {
   const navigate = useNavigate();
   const { t, language } = useLanguage(); 
@@ -11,49 +13,15 @@ const ServiceSelection = () => {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false); 
   const userName = "Soham Kolte"; 
 
+  // Use Custom Hook for Voice Module
+  useSpeech(t.selectService);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setSessionTime((prevTime) => prevTime + 1);
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  // Text-to-Speech Effect
-  useEffect(() => {
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(t.selectService);
-    
-    utterance.lang = language === 'mr' ? 'mr-IN' : 'en-US';
-    utterance.rate = 1.0; 
-    utterance.pitch = 1.0; 
-
-    const setFemaleVoiceAndSpeak = () => {
-      const voices = window.speechSynthesis.getVoices();
-      
-      const femaleVoice = voices.find(voice => 
-        (language === 'mr' && voice.lang.includes('mr')) ||
-        (voice.lang.includes('en') && voice.name.includes('Google US English'))
-      );
-
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
-      }
-
-      window.speechSynthesis.speak(utterance);
-    };
-
-    if (window.speechSynthesis.getVoices().length > 0) {
-      setFemaleVoiceAndSpeak();
-    } else {
-      window.speechSynthesis.onvoiceschanged = setFemaleVoiceAndSpeak;
-    }
-
-    return () => {
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.onvoiceschanged = null; 
-    };
-  }, [t.selectService, language]); 
 
   const formatSessionTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');

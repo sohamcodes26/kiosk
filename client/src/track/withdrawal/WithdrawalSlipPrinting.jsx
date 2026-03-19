@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../LanguageContext';
+import useSpeech from '../components/useSpeech';
+import LogoutScreen from '../components/LogoutScreen'; // Added LogoutScreen import
 
 const WithdrawalSlipPrinting = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+  useSpeech(t.printingWithdrawalSlip);
+
   const [sessionTime, setSessionTime] = useState(0); 
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false); // Added logout state
   
   // Changed initial countdown state from 10 to 60
   const [countdown, setCountdown] = useState(60);
@@ -36,20 +43,26 @@ const WithdrawalSlipPrinting = () => {
   };
 
   const handleLogout = () => {
-    navigate('/'); 
+    setIsLogoutOpen(true); // Open the logout modal instead of navigating
   };
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
+      <LogoutScreen 
+        isOpen={isLogoutOpen} 
+        onClose={() => setIsLogoutOpen(false)} 
+      />
       
       {/* Header */}
       <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
         <div>
-          <h1 className="text-xl font-semibold tracking-wide">Welcome, {userName}</h1>
+          <h1 className="text-xl font-semibold tracking-wide">
+            {t.welcome}, {userName}
+          </h1>
         </div>
         <div>
           <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            Logout
+            {t.logout}
           </button>
         </div>
       </header>
@@ -59,19 +72,19 @@ const WithdrawalSlipPrinting = () => {
         
         <div className="flex flex-col items-center w-full max-w-3xl -mt-20">
           <h2 className="text-[36px] font-semibold text-black mb-10">
-            Printing Withdrawal Slip
+            {t.printingWithdrawalSlip}
           </h2>
 
           <div className="text-[22px] text-gray-800 space-y-2 w-full pl-10">
-            <p>1. Please do a signature on front and at the back of slip.</p>
-            <p>2. Submit the slip to the counter number 3</p>
+            <p>{t.signSlip}</p>
+            <p>{t.submitCounter3}</p>
           </div>
         </div>
 
         {/* Countdown Timer in empty space */}
         <div className="absolute bottom-24 flex flex-col items-center">
           <p className="text-gray-500 text-xl font-medium">
-            Ending session in <span className="text-[#004b9b] font-bold text-2xl">{countdown}s</span>
+            {t.endingSession} <span className="text-[#004b9b] font-bold text-2xl">{countdown}s</span>
           </p>
           <div className="w-64 h-2 bg-gray-400 rounded-full mt-3 overflow-hidden">
             <div 
@@ -92,7 +105,7 @@ const WithdrawalSlipPrinting = () => {
           </span>
         </div>
         <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
-          2026 Bank Kiosk Secure Session
+          {t.secureSession}
         </div>
         <div className="w-1/3"></div>
       </footer>

@@ -4,10 +4,12 @@ import { ArrowLeft } from 'lucide-react';
 // Adjust the path to your LogoutScreen and LanguageContext based on folder depth!
 import LogoutScreen from '../../components/LogoutScreen'; 
 import { useLanguage } from '../../../LanguageContext';
+import useSpeech from '../../components/useSpeech';
 
 const UpdateMobileNumber = () => {
   const navigate = useNavigate();
   const { t, language } = useLanguage();
+  useSpeech(t.changePhoneNumberTitle);
   
   const [sessionTime, setSessionTime] = useState(0);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
@@ -24,39 +26,6 @@ const UpdateMobileNumber = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  // Text-to-Speech Accessibility
-  useEffect(() => {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(t.changePhoneNumberTitle);
-    
-    utterance.lang = language === 'mr' ? 'mr-IN' : 'en-US';
-    utterance.rate = 1.0; 
-    utterance.pitch = 1.0; 
-
-    const setFemaleVoiceAndSpeak = () => {
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(voice => 
-        (language === 'mr' && voice.lang.includes('mr')) ||
-        (voice.lang.includes('en') && voice.name.includes('Google US English'))
-      );
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
-      }
-      window.speechSynthesis.speak(utterance);
-    };
-
-    if (window.speechSynthesis.getVoices().length > 0) {
-      setFemaleVoiceAndSpeak();
-    } else {
-      window.speechSynthesis.onvoiceschanged = setFemaleVoiceAndSpeak;
-    }
-
-    return () => {
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.onvoiceschanged = null; 
-    };
-  }, [t.changePhoneNumberTitle, language]);
 
   const formatSessionTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');

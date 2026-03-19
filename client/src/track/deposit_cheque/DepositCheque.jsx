@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import LogoutScreen from '../components/LogoutScreen';
+import { useLanguage } from '../../LanguageContext';
+import useSpeech from '../components/useSpeech';
 
 const DepositCheque = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
+  useSpeech(t.enterChequeDetail);
+
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
@@ -41,7 +46,6 @@ const DepositCheque = () => {
   };
 
   const handleLogout = () => {
-    // 3. Instead of navigating, just open the popup!
     setIsLogoutOpen(true); 
   };
   const handleBack = () => navigate('/services');
@@ -75,11 +79,11 @@ const DepositCheque = () => {
       {/* Header */}
       <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
         <div>
-          <h1 className="text-xl font-semibold tracking-wide">Welcome, {userName}</h1>
+          <h1 className="text-xl font-semibold tracking-wide">{t.welcome}, {userName}</h1>
         </div>
         <div>
           <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            Logout
+            {t.logout}
           </button>
         </div>
       </header>
@@ -93,7 +97,7 @@ const DepositCheque = () => {
             <ArrowLeft size={36} className="text-black" />
           </button>
           <h2 className="text-[34px] font-semibold text-black">
-            Please enter receivers and cheque detail
+            {t.enterChequeDetail}
           </h2>
         </div>
 
@@ -105,15 +109,15 @@ const DepositCheque = () => {
             {/* Left Column: Receiver Account */}
             <div className="w-[35%] flex flex-col pr-8 border-r border-gray-200">
               <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase mb-6">
-                Receiver Account
+                {t.receiverAccount}
               </p>
               
               <div className="flex flex-col gap-5">
                 <div>
-                  <label className={labelStyle}>Account Number</label>
+                  <label className={labelStyle}>{t.accountNumber}</label>
                   <input 
                     type="text" 
-                    placeholder="1234567890123456"
+                    placeholder={t.enterAccountNumber}
                     value={accountNumber}
                     onChange={(e) => setAccountNumber(e.target.value)}
                     className={inputStyle}
@@ -124,7 +128,7 @@ const DepositCheque = () => {
                   onClick={handleDepositToSelf}
                   className="bg-[#213f99] hover:bg-[#1a337a] text-white font-bold py-3 rounded shadow-sm transition-colors active:scale-95"
                 >
-                  Deposit to Self
+                  {t.depositToSelf}
                 </button>
               </div>
             </div>
@@ -132,16 +136,16 @@ const DepositCheque = () => {
             {/* Right Column: Cheque Details */}
             <div className="flex-1 pl-8">
               <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase mb-6">
-                Cheque Details
+                {t.chequeDetails}
               </p>
               
               <div className="flex flex-col gap-5">
                 <div>
-                  <label className={labelStyle}>Cheque Number</label>
+                  <label className={labelStyle}>{t.chequeNumber}</label>
                   <input 
                     type="text" 
                     maxLength={6}
-                    placeholder="Enter 6-digit Cheque Number"
+                    placeholder={t.enterChequeNumber}
                     value={chequeNumber}
                     onChange={(e) => setChequeNumber(e.target.value)}
                     className={inputStyle}
@@ -149,10 +153,10 @@ const DepositCheque = () => {
                 </div>
 
                 <div>
-                  <label className={labelStyle}>Cheque Amount (₹)</label>
+                  <label className={labelStyle}>{t.chequeAmount}</label>
                   <input 
                     type="number" 
-                    placeholder="Enter Amount"
+                    placeholder={t.enterAmount}
                     value={chequeAmount}
                     onChange={(e) => setChequeAmount(e.target.value)}
                     className={inputStyle}
@@ -165,13 +169,13 @@ const DepositCheque = () => {
                 </div>
 
                 <div>
-                  <label className={labelStyle}>Cheque Bank</label>
+                  <label className={labelStyle}>{t.chequeBank}</label>
                   <select 
                     value={chequeBank}
                     onChange={(e) => setChequeBank(e.target.value)}
                     className={`${inputStyle} bg-white cursor-pointer`}
                   >
-                    <option value="" disabled>Select Bank</option>
+                    <option value="" disabled>{t.selectBank}</option>
                     {bankOptions.map((bank, index) => (
                       <option key={index} value={bank}>{bank}</option>
                     ))}
@@ -190,7 +194,7 @@ const DepositCheque = () => {
               onClick={handleConfirmDeposit}
               className="bg-[#22c55e] hover:bg-green-600 text-white font-bold text-xl py-3.5 px-12 rounded-md shadow-md transition-all active:scale-95"
             >
-              Confirm Deposit
+              {t.confirmDeposit}
             </button>
           </div>
 
@@ -205,7 +209,7 @@ const DepositCheque = () => {
           </span>
         </div>
         <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
-          2026 Bank Kiosk Secure Session
+          {t.secureSession}
         </div>
         <div className="w-1/3"></div>
       </footer>

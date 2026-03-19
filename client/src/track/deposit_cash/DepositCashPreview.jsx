@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import slipImage from '../../assets/deposit.png'; 
+import DepositCashSlip from './DepositCashSlip'; // using the newly created React slip component
 import { useLanguage } from '../../LanguageContext';
 import useSpeech from '../components/useSpeech';
-import LogoutScreen from '../components/LogoutScreen'; // Added LogoutScreen
+import LogoutScreen from '../components/LogoutScreen';
 
 const DepositCashPreview = () => {
   const navigate = useNavigate();
@@ -12,11 +12,33 @@ const DepositCashPreview = () => {
   useSpeech(t.reviewDepositSlip);
   
   // Grab the data passed from the previous screen
-  const { accountNumber, notes } = location.state || {}; 
+  const { accountNumber, notes, totalAmount, accountName, mobileNumber, email, panNumber } = location.state || {}; 
 
   const [sessionTime, setSessionTime] = useState(0); 
-  const userName = "Soham Kolte"; 
+  const userName = location.state?.accountName || "Soham Kolte"; 
   const [isLogoutOpen, setIsLogoutOpen] = useState(false); // Added state for Logout modal
+
+  // Example preview data for the deposit slip
+  const previewData = {
+    branch: 'Pune Central',
+    date: '19032026',
+    accountNumber: accountNumber || '1234567890123',
+    accountHolderName: userName,
+    panNumber: panNumber || '',
+    mobileNumber: mobileNumber || '9876543210',
+    email: email || '',
+    amount: totalAmount || (notes ? Object.entries(notes).reduce((acc, [denom, count]) => acc + (parseInt(denom) * count || 0), 0) : '10000'),
+    amountInWords: totalAmount ? `${totalAmount} Only` : (notes ? `${Object.entries(notes).reduce((acc, [denom, count]) => acc + (parseInt(denom) * count || 0), 0)} Only` : '10000 Only'),
+    notes2000: notes?.['2000']?.toString() || '0',
+    notes500: notes?.['500']?.toString() || '0',
+    notes200: notes?.['200']?.toString() || '0',
+    notes100: notes?.['100']?.toString() || '0',
+    notes50: notes?.['50']?.toString() || '0',
+    notes20: notes?.['20']?.toString() || '0',
+    notes10: notes?.['10']?.toString() || '0',
+    notes5: notes?.['5']?.toString() || '0',
+    coins: '0'
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -74,20 +96,18 @@ const DepositCashPreview = () => {
           {t.reviewDepositSlip}
         </h2>
 
-        {/* Content Layout: Image on Left, Buttons on Right aligned to bottom */}
-        <div className="w-full max-w-6xl flex items-stretch justify-between gap-12 flex-grow mb-8">
+        {/* Content Layout: Changed to items-stretch to match heights */}
+        <div className="w-full max-w-[90rem] flex items-stretch justify-between gap-12 flex-grow mb-8 px-12">
           
-          {/* Slip Image Container */}
-          <div className="flex-grow bg-white p-6 shadow-md rounded-sm border border-gray-200 flex justify-center items-center h-[500px]">
-            <img 
-              src={slipImage} 
-              alt="Deposit Slip Preview" 
-              className="max-w-full max-h-full object-contain"
-            />
+          {/* Slip Content Container */}
+          <div className="flex-grow flex justify-center items-center mr-16">
+            <div className="scale-[1.0] transform origin-center">
+              <DepositCashSlip {...previewData} />
+            </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col justify-end gap-5 w-40 shrink-0">
+          {/* Action Buttons: Changed to justify-end to push buttons to the bottom */}
+          <div className="flex flex-col justify-end gap-5 w-48 shrink-0 pb-12">
             <button 
               onClick={handleEdit}
               className="bg-[#2563eb] hover:bg-blue-700 text-white font-bold text-2xl py-3 rounded-md shadow-md transition-all active:scale-95"

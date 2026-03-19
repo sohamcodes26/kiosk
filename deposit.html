@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Deposit / Pay In Slip – Bank of Maharashtra</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #888;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  color: #111;
+}
+
+/* ── OUTER SHELL ── */
+.slip {
+  display: flex;
+  width: 1100px;
+  border: 2px solid #111;
+  background: #fff;
+}
+
+/* ── PANEL DIVIDER ── */
+.panel {
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #111;
+  overflow: hidden;
+}
+.panel:last-child { border-right: none; }
+
+/* ════════════════════════════
+   PANEL 1  (width ~340px)
+════════════════════════════ */
+.p1 { width: 340px; flex-shrink: 0; }
+
+/* P1 header */
+.p1-header {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1.5px solid #111;
+  min-height: 72px;
+}
+.p1-logo-wrap {
+  width: 52px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-right: 1px solid #ccc; padding: 4px;
+}
+.logo-circle {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1.5px solid #888;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; background: #f5f5f5;
+}
+.p1-bank-block {
+  width: 90px; flex-shrink: 0;
+  background: #555; color: #fff;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 4px 3px;
+  border-right: 1px solid #999;
+  text-align: center; line-height: 1.3;
+}
+.p1-bank-block .bm  { font-size: 7.5px; }
+.p1-bank-block .be  { font-size: 9.5px; font-weight: 900; }
+.p1-bank-block .bs  { font-size: 7px; color: #ddd; }
+.p1-title {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: flex-end; justify-content: center;
+  padding: 4px 8px;
+  text-align: right;
+}
+.p1-title .en { font-size: 14px; font-weight: 900; line-height: 1.15; }
+.p1-title .mr { font-size: 12px; font-weight: bold; margin-top: 2px; }
+
+/* P1 fields */
+.p1-body { padding: 5px 8px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+
+.field-row { display: flex; align-items: flex-end; gap: 4px; font-size: 11px; }
+.field-row label { white-space: nowrap; }
+.field-row .uline { flex: 1; border-bottom: 1px solid #555; min-width: 20px; height: 16px; }
+.field-row input[type=text] {
+  flex: 1; border: none; border-bottom: 1px solid #555;
+  outline: none; font-size: 11px; font-family: inherit;
+  padding: 0 2px; background: transparent; min-width: 0;
+}
+
+/* date boxes */
+.date-row { display: flex; align-items: center; gap: 4px; font-size: 11px; }
+.date-row label { white-space: nowrap; }
+.dboxes {
+  display: flex;
+  border: 1px solid #555;
+}
+.dboxes input {
+  width: 22px; height: 22px;
+  border: none; border-right: 1px solid #555;
+  text-align: center; font-size: 11px; outline: none; font-family: inherit;
+  padding: 0;
+}
+.dboxes input:last-child { border-right: none; }
+
+/* AC label + boxes */
+.ac-label-text { font-size: 9.5px; line-height: 1.4; font-weight: 500; }
+.ac-label-text strong { font-size: 10.5px; display: block; margin-top: 1px; }
+.acboxes { display: flex; border: 1px solid #555; margin-top: 3px; overflow: hidden; }
+.acboxes input {
+  flex: 1; min-width: 0; width: 0; height: 22px;
+  border: none; border-right: 1px solid #555;
+  text-align: center; font-size: 11px; outline: none; font-family: inherit;
+}
+.acboxes input:last-child { border-right: none; }
+
+/* amount */
+.amount-row { display: flex; flex-direction: column; gap: 3px; font-size: 11px; }
+.amount-row label { white-space: nowrap; }
+.amount-box {
+  display: flex; border: 1.5px solid #555; height: 26px; width: 100%;
+}
+.rupee-cell {
+  width: 26px; flex-shrink: 0;
+  background: #e8e8e8; border-right: 1.5px solid #555;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: bold;
+}
+.amount-box input {
+  flex: 1; min-width: 0; border: none; outline: none;
+  font-size: 11px; font-family: inherit; padding: 0 4px;
+}
+
+/* cheque table */
+.chtable { width: 100%; border-collapse: collapse; font-size: 10.5px; margin-top: 2px; }
+.chtable thead tr { background: #333; color: #fff; }
+.chtable th, .chtable td { border: 1px solid #888; padding: 2px 4px; }
+.chtable td input { width: 100%; border: none; outline: none; font-size: 10px; font-family: inherit; background: transparent; }
+.chtable .trow td { font-weight: bold; text-align: right; }
+
+/* cashier */
+.cashier-row {
+  display: flex; align-items: center; gap: 6px;
+  border-top: 1.5px solid #111; padding: 5px 8px; margin-top: auto;
+  font-size: 11.5px; font-weight: bold;
+}
+.cashier-box { flex: 1; height: 28px; border: 1.5px solid #555; }
+
+/* ════════════════════════════
+   PANEL 2  (width ~360px)
+════════════════════════════ */
+.p2 { width: 360px; flex-shrink: 0; }
+
+.p2-title {
+  border-bottom: 1.5px solid #111;
+  padding: 5px 8px;
+  text-align: center;
+  font-size: 13px; font-weight: 900;
+  line-height: 1.3;
+}
+.p2-title .sm { font-size: 10px; font-weight: normal; }
+
+.p2-pan {
+  padding: 5px 8px;
+  border-bottom: 1.5px solid #111;
+  font-size: 11px; display: flex; flex-direction: column; gap: 3px;
+}
+.p2-pan-row { display: flex; align-items: center; gap: 6px; }
+.p2-pan-row label { white-space: nowrap; font-weight: bold; }
+.panboxes { display: flex; border: 1px solid #555; }
+.panboxes input {
+  width: 22px; height: 22px; border: none; border-right: 1px solid #555;
+  text-align: center; font-size: 11px; outline: none; font-family: inherit; padding: 0;
+}
+.panboxes input:last-child { border-right: none; }
+.form60-row { display: flex; align-items: center; gap: 6px; }
+.form60-box { width: 22px; height: 22px; border: 1px solid #555; display: inline-block; }
+.cash-note { text-align: center; font-size: 10px; font-weight: bold; }
+
+/* notes table */
+.ntable { width: 100%; border-collapse: collapse; font-size: 11px; }
+.ntable thead .dark { background: #333; color: #fff; }
+.ntable thead .subhd { background: #eee; }
+.ntable th, .ntable td { border: 1px solid #888; padding: 2px 5px; }
+.ntable td input { width: 100%; border: none; outline: none; font-size: 10px; font-family: inherit; background: transparent; }
+.ntable .trow td { font-weight: bold; background: #f5f5f5; }
+
+.p2-instructions {
+  padding: 6px 8px; font-size: 8.5px; line-height: 1.45; flex: 1;
+  border-top: 1px solid #ccc;
+}
+.p2-instructions p { margin-bottom: 3px; }
+.p2-instructions ol { padding-left: 14px; margin-top: 3px; }
+.p2-instructions li { margin-bottom: 1px; }
+
+.p2-footer {
+  border-top: 1.5px solid #111; padding: 3px 8px;
+  font-size: 9px; font-weight: bold; text-align: center;
+}
+
+/* ════════════════════════════
+   PANEL 3  (flex:1)
+════════════════════════════ */
+.p3 { flex: 1; min-width: 0; }
+
+.p3-header {
+  display: flex; align-items: center;
+  border-bottom: 1.5px solid #111;
+  padding: 4px 8px; gap: 6px;
+  min-height: 60px;
+}
+.p3-logo-wrap {
+  width: 42px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.p3-bank-block {
+  background: #555; color: #fff;
+  padding: 3px 5px; font-size: 7.5px;
+  font-weight: bold; text-align: center; line-height: 1.35;
+  flex-shrink: 0;
+}
+.p3-bank-block .be { font-size: 9px; font-weight: 900; }
+.p3-branch-date {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; overflow: hidden; flex-wrap: nowrap;
+}
+.p3-branch-date label { white-space: nowrap; font-weight: bold; flex-shrink: 0; }
+.p3-branch-input {
+  width: 0; flex: 1; min-width: 0; max-width: 130px;
+  border: none; border-bottom: 1px solid #555; outline: none;
+  font-size: 11px; font-family: inherit; padding: 0 2px;
+  overflow: hidden;
+}
+.p3-date-label { white-space: nowrap; font-weight: bold; flex-shrink: 0; }
+.p3-date-boxes {
+  display: flex;
+  border: 1px solid #555;
+  flex-shrink: 0;
+}
+.p3-date-boxes input {
+  width: 22px; height: 22px;
+  border: none; border-right: 1px solid #555;
+  text-align: center; font-size: 11px;
+  outline: none; font-family: inherit;
+  padding: 0; flex-shrink: 0;
+}
+.p3-date-boxes input:last-child { border-right: none; }
+
+.p3-body { padding: 5px 8px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+
+/* P3 ac section */
+.p3-ac-top { display: flex; align-items: flex-start; gap: 4px; }
+.p3-ac-top .ac-label-text { flex: 1; }
+.p3-rupee-tag {
+  width: 30px; height: 26px; flex-shrink: 0;
+  border: 1.5px solid #555;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: bold; background: #e8e8e8;
+}
+
+.p3-acboxes { display: flex; border: 1px solid #555; margin-top: 3px; overflow: hidden; }
+.p3-acboxes input {
+  flex: 1; min-width: 0; width: 0; height: 22px;
+  border: none; border-right: 1px solid #555;
+  text-align: center; font-size: 11px; outline: none; font-family: inherit;
+}
+.p3-acboxes input:last-child { border-right: none; }
+
+/* P3 cheque table */
+.p3chtable { width: 100%; border-collapse: collapse; font-size: 10.5px; margin-top: 2px; }
+.p3chtable thead tr { background: #333; color: #fff; }
+.p3chtable th, .p3chtable td { border: 1px solid #888; padding: 2px 4px; }
+.p3chtable td input { width: 100%; border: none; outline: none; font-size: 10px; font-family: inherit; background: transparent; }
+.p3chtable .trow td { font-weight: bold; background: #f5f5f5; text-align: right; }
+
+/* P3 bottom bar */
+.p3-bottom {
+  display: flex; border-top: 1.5px solid #111; margin-top: auto;
+  font-size: 10.5px; font-weight: bold; min-height: 38px;
+}
+.p3-bottom-cell {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border-right: 1px solid #aaa; padding: 4px 5px; text-align: center;
+}
+.p3-bottom-cell:last-child { border-right: none; }
+.txn-input {
+  width: 90%; height: 18px; border: 1px solid #aaa; outline: none;
+  font-size: 10px; font-family: inherit; margin-top: 2px;
+}
+
+/* print */
+.print-btn {
+  margin-top: 14px; padding: 8px 30px; background: #8B0000;
+  color: #fff; border: none; border-radius: 3px;
+  font-size: 13px; cursor: pointer; font-family: inherit;
+}
+.print-btn:hover { background: #6a0000; }
+@media print { body { background:#fff; padding:0; } .print-btn { display:none; } }
+</style>
+</head>
+<body>
+<div class="slip">
+
+<!-- ══════════════════════════════════
+     PANEL 1
+══════════════════════════════════ -->
+<div class="panel p1">
+
+  <div class="p1-header">
+    <div class="p1-logo-wrap"><div class="logo-circle">🏛</div></div>
+    <div class="p1-bank-block">
+      <div class="bm">बँक ऑफ</div>
+      <div class="bm">महाराष्ट्र</div>
+      <div class="be">Bank of</div>
+      <div class="be">Maharashtra</div>
+      <div class="bs">एक परिवार एक बँक</div>
+    </div>
+    <div class="p1-title">
+      <div class="en">DEPOSIT / PAY IN<br/>SLIP</div>
+      <div class="mr">पैसे भरणा स्लीप</div>
+    </div>
+  </div>
+
+  <div class="p1-body">
+
+    <div class="field-row">
+      <label>शाखा/ Branch :</label>
+      <input type="text"/>
+    </div>
+
+    <div class="date-row">
+      <label>दिनांक /Date</label>
+      <div class="dboxes">
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+      </div>
+    </div>
+
+    <div>
+      <div class="ac-label-text">
+        बचत/चालू/ओडी/केश क्रेडिट/आवर्ती जमा खाते/टीएल/डीएल खाते/ क्रेडिट कार्ड नं.
+        <strong>SB/CA/OD/CC/RD/TL/DL/A/c No./Credit Card No.</strong>
+      </div>
+      <div class="acboxes">
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>नाव /Name :</label>
+      <input type="text"/>
+    </div>
+
+    <div class="field-row">
+      <label>टेलिफोन नं. /Tel. No.:</label>
+      <input type="text"/>
+    </div>
+
+    <div class="amount-row">
+      <label>रक्कम/Amount :</label>
+      <div class="amount-box">
+        <div class="rupee-cell">₹</div>
+        <input type="text"/>
+      </div>
+    </div>
+
+    <div class="field-row" style="flex-direction:column;align-items:flex-start;gap:2px;">
+      <label>अक्षरी रक्कम रु. /Rupees in Words :</label>
+      <input type="text" style="width:100%;border:none;border-bottom:1px solid #555;outline:none;font-size:11px;font-family:inherit;"/>
+    </div>
+
+    <table class="chtable">
+      <thead>
+        <tr>
+          <th style="text-align:left;width:55%;">Cash/Cheque Date &amp;<br/>Name of Bank &amp; Branch</th>
+          <th>₹</th>
+          <th>Ps.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr class="trow"><td colspan="1" style="text-align:right;">एकुण/ Total</td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="cashier-row">
+    <span>रोखपाल/ Cashier</span>
+    <div class="cashier-box"></div>
+  </div>
+
+</div><!-- /p1 -->
+
+
+<!-- ══════════════════════════════════
+     PANEL 2
+══════════════════════════════════ -->
+<div class="panel p2">
+
+  <div class="p2-title">
+    <span class="sm">पैसे भरणा स्लीप /</span> DEPOSIT / PAY IN SLIP
+  </div>
+
+  <div class="p2-pan">
+    <div class="p2-pan-row">
+      <label>PAN NO</label>
+      <div class="panboxes">
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+      </div>
+    </div>
+    <div class="form60-row">
+      <label>or Form 60</label>
+      <div class="form60-box"></div>
+    </div>
+    <div class="cash-note">For Cash Deposit of 50,000/- &amp; Above</div>
+  </div>
+
+  <table class="ntable">
+    <thead>
+      <tr class="dark">
+        <th colspan="4" style="text-align:center;">रोख जमा विवरण / CASH DEPOSIT</th>
+      </tr>
+      <tr class="subhd">
+        <th style="text-align:left;">नोट/Notes</th>
+        <th>सं./No.</th>
+        <th>₹</th>
+        <th>Ps.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2000 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>500 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>200 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>100 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>50 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>20 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>10 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>5 x</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr><td>नाणी/Coins</td><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      <tr class="trow"><td colspan="2" style="text-align:right;">एकुण/Total</td><td><input type="text"/></td><td><input type="text"/></td></tr>
+    </tbody>
+  </table>
+
+  <div class="p2-footer">SERVICE TAX REG NO.: AACCB 0774 BST 679</div>
+
+</div><!-- /p2 -->
+
+
+<!-- ══════════════════════════════════
+     PANEL 3
+══════════════════════════════════ -->
+<div class="panel p3">
+
+  <div class="p3-header">
+    <!-- <div class="p3-logo-wrap"><div class="logo-circle">🏛</div></div> -->
+    <div class="p3-bank-block">
+      <div class="bm">बँक ऑफ महाराष्ट्र</div>
+      <div class="be">Bank of Maharashtra</div>
+      <div style="font-size:7px;color:#ddd;">एक परिवार एक बँक</div>
+    </div>
+    <div class="p3-branch-date">
+      <span class="p3-date-label">दिनांक /Date :</span>
+      <div class="p3-date-boxes">
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="p3-body">
+
+    <div>
+      <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:3px;">
+        <div style="display:flex;border:1.5px solid #555;height:26px;width:140px;flex-shrink:0;">
+          <div style="width:26px;background:#e8e8e8;border-right:1.5px solid #555;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;flex-shrink:0;">₹</div>
+          <input type="text" style="flex:1;min-width:0;border:none;outline:none;font-size:11px;font-family:inherit;padding:0 4px;"/>
+        </div>
+      </div>
+      <div style="font-size:11px;font-weight:900;margin-bottom:3px;">SB/CA/OD/CC/RD/TL/DL/A/c No./Credit Card No.</div>
+      <div class="p3-acboxes" style="overflow:hidden;">
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+        <input type="text" maxlength="1"/>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <label>नाव /Name :</label>
+      <input type="text"/>
+    </div>
+
+    <div class="field-row">
+      <label>टेलिकोन नं./मोबाईल नं. / Tel. No./Mobile No.</label>
+      <input type="text"/>
+    </div>
+
+    <div class="field-row">
+      <label>ई- मेल आयडी /E-mail ID :</label>
+      <input type="text"/>
+    </div>
+
+    <div class="field-row">
+      <label>अक्षरी रक्कम रु. /Rupees in Words :</label>
+      <input type="text"/>
+    </div>
+
+    <table class="p3chtable">
+      <thead>
+        <tr>
+          <th style="text-align:left;width:55%;">Cash/Cheque Date &amp; Name of Bank &amp; Branch</th>
+          <th>₹</th>
+          <th>Ps.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr><td><input type="text"/></td><td><input type="text"/></td><td><input type="text"/></td></tr>
+        <tr class="trow"><td style="text-align:right;">एकुण/ Total</td><td><input type="text"/></td><td><input type="text"/></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="p3-bottom">
+    <div class="p3-bottom-cell">SWO</div>
+    <div class="p3-bottom-cell">
+      <div>Transaction ID</div>
+      <input class="txn-input" type="text"/>
+    </div>
+    <div class="p3-bottom-cell">Passing Officer</div>
+    <div class="p3-bottom-cell">जमा करणार/<br/>Signature of Depositor</div>
+  </div>
+
+</div><!-- /p3 -->
+
+</div><!-- /slip -->
+
+<button class="print-btn" onclick="window.print()">🖨 Print Slip</button>
+
+<script>
+  // Auto-advance boxes within their immediate container
+  document.querySelectorAll('.dboxes, .panboxes, .p3-date-boxes').forEach(wrap => {
+    const inputs = wrap.querySelectorAll('input');
+    inputs.forEach((inp, i) => {
+      inp.addEventListener('input', () => { if(inp.value && i < inputs.length-1) inputs[i+1].focus(); });
+      inp.addEventListener('keydown', e => { if(e.key==='Backspace' && !inp.value && i>0) inputs[i-1].focus(); });
+    });
+  });
+  document.querySelectorAll('.acboxes, .p3-acboxes').forEach(wrap => {
+    const inputs = wrap.querySelectorAll('input');
+    inputs.forEach((inp, i) => {
+      inp.addEventListener('input', () => { if(inp.value && i < inputs.length-1) inputs[i+1].focus(); });
+      inp.addEventListener('keydown', e => { if(e.key==='Backspace' && !inp.value && i>0) inputs[i-1].focus(); });
+    });
+  });
+</script>
+</body>
+</html>

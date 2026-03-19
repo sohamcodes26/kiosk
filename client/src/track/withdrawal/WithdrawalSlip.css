@@ -1,0 +1,306 @@
+.slip-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.slip {
+  width: 1000px;
+  background: #e3e3e3; /* light gray background */
+  border: 2px solid #111;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #111;
+}
+
+.title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 900;
+  font-family: Arial Black, Arial, sans-serif;
+  border-bottom: 2px solid #111;
+  padding: 6px 8px 5px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.header-row {
+  display: flex;
+  border-bottom: 2px solid #111;
+  height: 78px;
+}
+
+.logo-box {
+  width: 152px;
+  flex-shrink: 0;
+  border-right: 2px solid #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 4px 6px;
+}
+
+.logo-circle {
+  width: 40px; height: 40px;
+  border-radius: 50%; border: 2px solid #666;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; background: #f0f0f0;
+}
+
+.bank-name-block {
+  background: #8B0000; color: #fff;
+  text-align: center; padding: 2px 4px; width: 100%; line-height: 1.35;
+}
+
+.bank-name-block .bm { font-size: 8.5px; }
+.bank-name-block .be { font-size: 11px; font-weight: 900; }
+.bank-name-block .bt { font-size: 7.5px; color: #ffd; }
+.logo-sub { font-size: 8.5px; font-weight: bold; margin-top: 1px; }
+
+.instructions {
+  flex: 1;
+  padding: 5px 10px;
+  font-size: 10px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.branch-date-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 2px solid #111;
+  height: 38px;
+}
+
+.branch-sec {
+  flex: 1;
+  border-right: 2px solid #111;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 6px;
+}
+
+.branch-sec label {
+  font-weight: bold; font-size: 13px; white-space: nowrap;
+  border: 1.5px solid #111; padding: 3px 6px;
+}
+
+.branch-sec .val-line {
+  flex: 1; border-bottom: 1.5px solid #555;
+  display: flex; align-items: flex-end; padding-bottom: 2px;
+}
+.val-text {
+  font-size: 18px; font-weight: bold; color: #1e3a8a; font-family: inherit;
+  background: rgba(144, 238, 144, 0.5); /* light green with 50% opacity */
+  padding: 0 4px; border-radius: 2px;
+}
+
+.date-sec {
+  display: flex; align-items: center;
+  padding: 0 10px; gap: 8px; flex-shrink: 0;
+}
+
+.date-sec label { font-weight: bold; font-size: 13px; white-space: nowrap; }
+.date-boxes { display: flex; }
+.dbox {
+  width: 26px; height: 28px;
+  border: 1.5px solid #333;
+  border-left: none;
+  text-align: center; font-size: 20px; font-weight: bold; color: #1e3a8a;
+  outline: none; font-family: inherit;
+  background: rgba(144, 238, 144, 0.5);
+}
+.dbox:first-child { border-left: 1.5px solid #333; }
+
+.pay-section {
+  border-bottom: 2px solid #111;
+  padding: 4px 10px 3px;
+}
+
+.pay-line {
+  display: flex; align-items: flex-end;
+  gap: 4px; margin-bottom: 1px; font-size: 13px;
+}
+
+.pay-line label { white-space: nowrap; }
+.pay-line .val-line {
+  flex: 1; border-bottom: 1.5px solid #555;
+  display: flex; align-items: flex-end; padding-bottom: 1px;
+}
+.pay-line .sfx { white-space: nowrap; font-weight: bold; font-size: 13px; }
+
+.ac-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 2px solid #111;
+  height: 52px;
+}
+
+.ac-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  overflow: hidden;
+  border-right: 2px solid #111;
+}
+
+.ac-label {
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1.5;
+  border-right: 1.5px solid #111;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ac-digits {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.abox {
+  flex: 1;
+  min-width: 0;
+  width: 0;
+  border: none;
+  border-right: 1.5px solid #555;
+  text-align: center;
+  font-size: 20px; font-weight: bold; color: #1e3a8a;
+  outline: none;
+  font-family: inherit;
+  background: rgba(144, 238, 144, 0.5);
+}
+.abox:last-child { border-right: none; }
+
+.ac-right {
+  width: 210px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4px 8px;
+  font-size: 11.5px;
+  font-weight: bold;
+  line-height: 1.65;
+}
+
+.name-amount-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 2px solid #111;
+  min-height: 100px;
+}
+
+.name-sec {
+  flex: 1;
+  border-right: 2px solid #111;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.name-line {
+  display: flex; align-items: flex-end; gap: 6px; font-size: 12.5px;
+}
+.name-line label { white-space: nowrap; }
+.name-line .val-line {
+  flex: 1; min-width: 0;
+  border-bottom: 1.5px solid #555;
+  display: flex; align-items: flex-end; padding-bottom: 1px;
+}
+
+.amount-col {
+  width: 210px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.amount-inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #444;
+}
+
+.rupee-cell {
+  width: 40px;
+  flex-shrink: 0;
+  background: #d8d8d8;
+  border-right: 2px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.amount-val-line {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 3px 6px;
+}
+.amount-val-text {
+  font-size: 24px; font-weight: bold; color: #1e3a8a; font-family: inherit;
+  background: rgba(144, 238, 144, 0.5);
+  padding: 0 4px; border-radius: 2px;
+}
+
+.sig-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1.5px solid #111;
+  height: 64px;
+}
+
+.sig-left, .sig-right {
+  flex: 1;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sig-left {
+  border-right: 2px solid #111;
+}
+
+.sig-line { display: flex; align-items: flex-end; gap: 4px; }
+.uline {
+  flex: 1;
+  border-bottom: 1.5px solid #333;
+  min-width: 80px;
+}
+
+.footer {
+  text-align: right;
+  padding: 3px 10px;
+  font-size: 10px;
+  color: #444;
+}

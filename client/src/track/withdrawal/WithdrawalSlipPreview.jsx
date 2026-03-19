@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import slipImage from '../../assets/WithdrawalSlip.png'; 
+import WithdrawalSlip from './WithdrawalSlip'; // using the newly created generic slip
 import { useLanguage } from '../../LanguageContext';
 import useSpeech from '../components/useSpeech';
 import LogoutScreen from '../components/LogoutScreen'; // Added LogoutScreen
@@ -16,6 +16,16 @@ const WithdrawalSlipPreview = () => {
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
   const [isLogoutOpen, setIsLogoutOpen] = useState(false); // Added state for Logout modal
+
+  // Example preview data for the slip
+  const previewData = {
+    branch: 'Pune Central',
+    date: '19032026', // Formatted as DDMMYYYY
+    accountNumber: '1234567890123',
+    accountHolderName: userName,
+    amount: amount,
+    amountInWords: amount ? `${amount} Only` : '', 
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -74,19 +84,17 @@ const WithdrawalSlipPreview = () => {
         </h2>
 
         {/* Content Layout: Changed to items-stretch to match heights */}
-        <div className="w-full max-w-6xl flex items-stretch justify-between gap-12 flex-grow mb-8">
+        <div className="w-full max-w-[90rem] flex items-stretch justify-between gap-12 flex-grow mb-8 px-12">
           
-          {/* Slip Image Container */}
-          <div className="flex-grow bg-white p-6 shadow-md rounded-sm border border-gray-200 flex justify-center items-center h-[500px]">
-            <img 
-              src={slipImage} 
-              alt="Withdrawal Slip Preview" 
-              className="max-w-full max-h-full object-contain"
-            />
+          {/* Slip Content Container */}
+          <div className="flex-grow flex justify-center items-center mr-16">
+            <div className="scale-[1.1] transform origin-center">
+              <WithdrawalSlip {...previewData} />
+            </div>
           </div>
 
           {/* Action Buttons: Changed to justify-end to push buttons to the bottom */}
-          <div className="flex flex-col justify-end gap-5 w-40 shrink-0">
+          <div className="flex flex-col justify-end gap-5 w-48 shrink-0 pb-12">
             <button 
               onClick={handleEdit}
               className="bg-[#2563eb] hover:bg-blue-700 text-white font-bold text-2xl py-3 rounded-md shadow-md transition-all active:scale-95"

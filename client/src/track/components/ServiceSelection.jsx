@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogoutScreen from './LogoutScreen';
-import { useLanguage } from '../../LanguageContext'; // <-- Import Context
+import { useLanguage } from '../../LanguageContext'; 
 
 const ServiceSelection = () => {
   const navigate = useNavigate();
-  const { t, language } = useLanguage(); // <-- Destructure dictionary and current language
+  const { t, language } = useLanguage(); 
 
   const [sessionTime, setSessionTime] = useState(0);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false); 
@@ -22,10 +22,8 @@ const ServiceSelection = () => {
   useEffect(() => {
     window.speechSynthesis.cancel();
 
-    // Use the dynamic translated text for the speech utterance
     const utterance = new SpeechSynthesisUtterance(t.selectService);
     
-    // Set language code based on current language state
     utterance.lang = language === 'mr' ? 'mr-IN' : 'en-US';
     utterance.rate = 1.0; 
     utterance.pitch = 1.0; 
@@ -34,7 +32,6 @@ const ServiceSelection = () => {
       const voices = window.speechSynthesis.getVoices();
       
       const femaleVoice = voices.find(voice => 
-        // If Marathi is selected, try to find a Marathi voice, else fallback to English female
         (language === 'mr' && voice.lang.includes('mr')) ||
         (voice.lang.includes('en') && voice.name.includes('Google US English'))
       );
@@ -56,7 +53,7 @@ const ServiceSelection = () => {
       window.speechSynthesis.cancel();
       window.speechSynthesis.onvoiceschanged = null; 
     };
-  }, [t.selectService, language]); // Added dependencies to re-run if language changes
+  }, [t.selectService, language]); 
 
   const formatSessionTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60).toString().padStart(2, '0');
@@ -78,6 +75,15 @@ const ServiceSelection = () => {
       navigate('/deposit-cheque');
     } else if (serviceName === 'Demand Draft') {
       navigate('/deposit-dd'); 
+    }
+    else if (serviceName === 'Request ATM Card') {
+      navigate('/request-atm'); 
+    }
+    else if (serviceName === 'Request Cheque Book') { 
+      navigate('/request-chequebook'); 
+    }
+    else if (serviceName === 'Update Mobile No.') {
+      navigate('/update-mobile'); 
     }
   };
 
@@ -113,8 +119,8 @@ const ServiceSelection = () => {
           {t.selectService}
         </h2>
 
-        {/* 4-Column Grid Layout */}
-        <div className="w-full max-w-6xl grid grid-cols-4 gap-6">
+        {/* 2-Column Grid Layout (Updated from 4 columns) */}
+        <div className="w-full max-w-4xl grid grid-cols-2 gap-12">
           
           {/* Column 1: Cash Transactions & Deposits */}
           <div className="flex flex-col gap-3">
@@ -139,27 +145,7 @@ const ServiceSelection = () => {
             </button>
           </div>
 
-          {/* Column 2: Account Opening */}
-          <div className="flex flex-col gap-3">
-            <div className="bg-[#213f99] text-white text-sm font-bold py-3 px-2 text-center rounded shadow-sm uppercase tracking-wide">
-              {t.accountOpening}
-            </div>
-            <button onClick={() => handleServiceClick('Saving Account')} className={buttonStyle}>
-              {t.savingAccount}
-            </button>
-          </div>
-
-          {/* Column 3: RE-KYC */}
-          <div className="flex flex-col gap-3">
-            <div className="bg-[#213f99] text-white text-sm font-bold py-3 px-2 text-center rounded shadow-sm uppercase tracking-wide">
-              {t.reKycTitle}
-            </div>
-            <button onClick={() => handleServiceClick('Re-KYC')} className={buttonStyle}>
-              {t.reKyc}
-            </button>
-          </div>
-
-          {/* Column 4: Customer Request */}
+          {/* Column 2: Customer Request (Removed Statement Request) */}
           <div className="flex flex-col gap-3">
             <div className="bg-[#213f99] text-white text-sm font-bold py-3 px-2 text-center rounded shadow-sm uppercase tracking-wide">
               {t.customerRequest}
@@ -172,9 +158,6 @@ const ServiceSelection = () => {
             </button>
             <button onClick={() => handleServiceClick('Update Mobile No.')} className={buttonStyle}>
               {t.updateMobile}
-            </button>
-            <button onClick={() => handleServiceClick('Statement Request')} className={buttonStyle}>
-              {t.statementRequest}
             </button>
           </div>
 

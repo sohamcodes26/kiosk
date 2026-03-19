@@ -19,6 +19,10 @@ import DepositDD from "./track/deposit_DD/DepositDD.jsx";
 import DepositDDPreview from "./track/deposit_DD/DepositDDPreview.jsx";
 import { LanguageProvider } from './LanguageContext';
 
+import UpdateMobileNumber from "./track/customer_request/update_mobile/UpdateMobileNumber.jsx";
+import RequestATM from "./track/customer_request/request_atm/RequestATM.jsx";
+import RequestChequebook from "./track/customer_request/request_chequebook/RequestChequebook.jsx";
+
 function App() {
   return (
     <LanguageProvider>
@@ -44,6 +48,11 @@ function App() {
         {/* Demand Draft Routes */}
         <Route path="/deposit-dd" element={<DepositDD />} />
         <Route path="/deposit-dd-preview" element={<DepositDDPreview />} />
+
+        {/* Customer Request Routes */}
+        <Route path="/update-mobile" element={<UpdateMobileNumber />} />
+        <Route path="/request-atm" element={<RequestATM />} />
+        <Route path="/request-chequebook" element={<RequestChequebook />} />
       </Routes>
     </Router>
     </LanguageProvider>

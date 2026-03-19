@@ -74,12 +74,51 @@ export const translations = {
     submitCounter3: "2. Submit the slip to the counter number 3",
     submitCounter4: "2. Submit the slip to the counter number 4",
     endingSession: "Ending session in",
+    mobileUpdatedSuccess: "Your Mobile Number has been updated",
+    oldNumberLabel: "Old number:",
+    newNumberLabel: "New number:",
 
     // Logout Popup
     areYouSure: "Are you sure?",
     cancelWarning: "Please note that once canceled, you will need to restart from the beginning.",
     continueProcess: "Continue Process",
-    cancelProcess: "Cancel Process"
+    cancelProcess: "Cancel Process",
+
+    // Update Mobile Flow
+    changePhoneNumberTitle: "Change phone number",
+    newPhoneNumber: "NEW PHONE NUMBER",
+    enter10Digit: "Enter 10-digit Mobile Number",
+    sendOtp: "Send OTP",
+    enterOtpLabel: "ENTER OTP",
+    enterOtpPlaceholder: "Enter OTP",
+    confirmChange: "Confirm Change",
+
+    // Request ATM Flow
+    requestAtmTitle: "Request a new ATM card",
+    cardNetwork: "CARD NETWORK",
+    rupay: "RuPay",
+    mastercard: "Mastercard",
+    visa: "Visa",
+    cardType: "CARD TYPE",
+    domestic: "Domestic",
+    international: "International",
+    reasonForRequest: "REASON FOR REQUEST",
+    selectReason: "-- Select Reason --",
+    reasonLost: "Lost / Stolen",
+    reasonExpired: "Card Expired",
+    reasonDamaged: "Card Damaged",
+    submitRequest: "Submit Request",
+    
+    // ATM Success Message
+    atmRequestSuccessTitle: "Your request has been submitted",
+    atmRequestSuccessDesc: "Once it is reviewed, you will receive an SMS on your mobile number and the card will be delivered to your registered address.",
+
+    // Request Cheque Book Flow
+    requestChequebookTitle: "Request a new Cheque Book",
+    numberOfLeaves: "NUMBER OF LEAVES",
+    reasonExhausted: "Old book exhausted",
+    deliveryInfo: "The cheque book will be delivered to your registered address.",
+    chequebookSuccessDesc: "Once it is reviewed, your new cheque book will be delivered to your registered address.",
   },
   
   mr: {
@@ -157,11 +196,50 @@ export const translations = {
     submitCounter3: "२. कृपया ३ नंबरच्या काउंटरवर पावती जमा करा.",
     submitCounter4: "२. कृपया ४ नंबरच्या काउंटरवर पावती जमा करा.",
     endingSession: "सत्र संपत आहे",
+    mobileUpdatedSuccess: "तुमचा मोबाईल नंबर अपडेट झाला आहे",
+    oldNumberLabel: "जुना नंबर:",
+    newNumberLabel: "नवीन नंबर:",
 
     // Logout Popup
     areYouSure: "तुम्हाला खात्री आहे का?",
     cancelWarning: "कृपया नोंद घ्या, एकदा प्रक्रिया रद्द केल्यावर तुम्हाला सुरुवातीपासून सुरुवात करावी लागेल.",
     continueProcess: "प्रक्रिया सुरू ठेवा",
-    cancelProcess: "प्रक्रिया रद्द करा"
+    cancelProcess: "प्रक्रिया रद्द करा",
+
+    // Update Mobile Flow
+    changePhoneNumberTitle: "फोन नंबर बदला",
+    newPhoneNumber: "नवीन फोन नंबर",
+    enter10Digit: "१०-अंकी मोबाईल नंबर प्रविष्ट करा",
+    sendOtp: "ओटीपी (OTP) पाठवा",
+    enterOtpLabel: "ओटीपी (OTP) प्रविष्ट करा",
+    enterOtpPlaceholder: "ओटीपी (OTP) प्रविष्ट करा",
+    confirmChange: "बदल निश्चित करा",
+
+    // Request ATM Flow
+    requestAtmTitle: "नवीन एटीएम कार्डची विनंती करा",
+    cardNetwork: "कार्ड नेटवर्क",
+    rupay: "रुपे (RuPay)",
+    mastercard: "मास्टरकार्ड (Mastercard)",
+    visa: "व्हिसा (Visa)",
+    cardType: "कार्डचा प्रकार",
+    domestic: "देशांतर्गत (Domestic)",
+    international: "आंतरराष्ट्रीय (International)",
+    reasonForRequest: "विनंतीचे कारण",
+    selectReason: "-- कारण निवडा --",
+    reasonLost: "हरवले / चोरीला गेले",
+    reasonExpired: "कार्ड कालबाह्य झाले",
+    reasonDamaged: "कार्ड खराब झाले",
+    submitRequest: "विनंती सबमिट करा",
+
+    // ATM Success Message
+    atmRequestSuccessTitle: "तुमची विनंती सबमिट केली आहे",
+    atmRequestSuccessDesc: "तिचे पुनरावलोकन झाल्यानंतर, तुम्हाला तुमच्या मोबाईल नंबरवर एक एसएमएस (SMS) मिळेल आणि कार्ड तुमच्या नोंदणीकृत पत्त्यावर पाठवले जाईल.",
+
+    // Request Cheque Book Flow
+    requestChequebookTitle: "नवीन चेक बुकची विनंती करा",
+    numberOfLeaves: "पानांची संख्या",
+    reasonExhausted: "जुने पुस्तक संपले",
+    deliveryInfo: "चेक बुक तुमच्या नोंदणीकृत पत्त्यावर पाठवले जाईल.",
+    chequebookSuccessDesc: "पुनरावलोकन झाल्यानंतर, तुमचे नवीन चेक बुक तुमच्या नोंदणीकृत पत्त्यावर पाठवले जाईल.",
   }
 };

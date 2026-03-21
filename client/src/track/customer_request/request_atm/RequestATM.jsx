@@ -49,8 +49,8 @@ const RequestATM = () => {
   };
 
   // Reusable styles
-  const labelStyle = "text-[#3b5b99] font-bold text-[11px] tracking-widest uppercase mb-3 block";
-  const optionBtnBase = "py-3 rounded text-sm font-bold border transition-colors active:scale-95 text-center";
+  const labelStyle = "text-[#3b5b99] font-bold text-base tracking-widest uppercase mb-3 block";
+  const optionBtnBase = "py-4 rounded text-lg font-bold border transition-colors active:scale-95 text-center";
   
   // Helper to determine if a button is selected or not
   const getBtnStyle = (isSelected) => 
@@ -109,7 +109,7 @@ const RequestATM = () => {
             <select 
               value={reason} 
               onChange={(e) => setReason(e.target.value)}
-              className="w-full border border-gray-300 rounded p-3 text-base text-gray-700 font-medium outline-none focus:border-[#004b9b] bg-white cursor-pointer"
+              className="w-full border border-gray-300 rounded p-3 text-xl text-gray-700 font-medium outline-none focus:border-[#004b9b] bg-white cursor-pointer"
             >
               <option value="" disabled>{t.selectReason}</option>
               <option value="Lost">{t.reasonLost}</option>

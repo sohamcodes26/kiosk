@@ -16,12 +16,12 @@ export const translations = {
 
     // Service Selection
     selectService: "Please select required service",
-    cashTransaction: "CASH TRANSACTION",
-    withdrawal: "Withdrawal",
-    depositTitle: "DEPOSIT",
-    cash: "Cash",
-    cheque: "Cheque",
-    demandDraft: "Demand Draft",
+    cashTransaction: "WITHDRAWAL SLIP",
+    withdrawal: "Withdrawal Cash",
+    depositTitle: "DEPOSIT SLIP",
+    cash: "Deposit Cash",
+    cheque: "Deposit Cheque",
+    demandDraft: "Deposit DD",
     accountOpening: "ACCOUNT OPENING",
     savingAccount: "Saving Account",
     reKycTitle: "RE-KYC",
@@ -138,10 +138,10 @@ export const translations = {
 
     // Service Selection
     selectService: "कृपया आवश्यक सेवा निवडा",
-    cashTransaction: "रोख व्यवहार",
-    withdrawal: "पैसे काढणे",
-    depositTitle: "पैसे भरणे (डिपॉझिट)",
-    cash: "रोख (कॅश)",
+    cashTransaction: "पैसे काढणे",
+    withdrawal: "पैसे काढा",
+    depositTitle: "पैसे भरणे (Deposit)",
+    cash: "रोख (Cash)",
     cheque: "चेक",
     demandDraft: "डिमांड ड्राफ्ट (DD)",
     accountOpening: "खाते उघडणे",

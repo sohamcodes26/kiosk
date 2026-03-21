@@ -140,7 +140,7 @@ const DepositCash = () => {
             
             {/* Left Column: Receiver Account */}
             <div className="w-1/3 flex flex-col gap-4 pr-10 border-r border-gray-200">
-              <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase">
+              <p className="text-[#3b5b99] font-bold text-base tracking-widest uppercase">
                 {t.receiverAccount}
               </p>
               <input 
@@ -148,7 +148,7 @@ const DepositCash = () => {
                 placeholder={t.enterAccountNumber}
                 value={accountNumber}
                 onChange={(e) => setAccountNumber(e.target.value)}
-                className="border border-gray-300 rounded p-3 text-lg outline-none focus:border-[#004b9b]"
+                className="border border-gray-300 rounded p-4 text-xl outline-none focus:border-[#004b9b]"
               />
               <button 
                 onClick={handleDepositToSelf}
@@ -160,7 +160,7 @@ const DepositCash = () => {
 
             {/* Right Column: Amount Breakdown */}
             <div className="w-2/3 pl-10">
-              <p className="text-[#3b5b99] font-bold text-sm tracking-widest uppercase mb-4">
+              <p className="text-[#3b5b99] font-bold text-base tracking-widest uppercase mb-4">
                 {t.amountBreakdown}
               </p>
               {/* Reduced gap-y from 4 to 3 to save vertical space */}
@@ -190,7 +190,7 @@ const DepositCash = () => {
                           type="number"
                           value={notes[val]}
                           onChange={(e) => handleNoteInputChange(val, e.target.value)}
-                          className="border border-[#2563eb] text-[#2563eb] bg-white font-bold text-lg w-16 text-center py-1.5 rounded-sm outline-none focus:ring-1 focus:ring-blue-500 shadow-inner"
+                          className="border border-gray-400 text-black bg-white font-bold text-xl w-16 text-center py-1.5 rounded-sm outline-none focus:border-black focus:ring-1 focus:ring-black shadow-inner"
                           style={{ MozAppearance: 'textfield' }} // Firefox fallback
                         />
 

@@ -68,8 +68,8 @@ const DepositDD = () => {
   };
 
   // Reusable styling variables
-  const labelStyle = "text-[#3b5b99] font-bold text-xs tracking-wider uppercase mb-1.5";
-  const inputStyle = "border border-gray-300 rounded p-2.5 text-base outline-none focus:border-[#004b9b] w-full text-gray-800 font-medium";
+  const labelStyle = "text-[#3b5b99] font-bold text-base tracking-wider uppercase mb-1.5";
+  const inputStyle = "border border-gray-300 rounded p-4 text-xl outline-none focus:border-[#004b9b] w-full text-gray-800 font-medium";
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
@@ -209,7 +209,7 @@ const DepositDD = () => {
             {formatSessionTime(sessionTime)}
           </span>
         </div>
-        <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
+        <div className="w-1/3 text-center text-blue-100/90 text-base tracking-wider">
           {t.secureSession}
         </div>
         <div className="w-1/3"></div>

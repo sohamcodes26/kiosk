@@ -100,7 +100,7 @@ const WithdrawalCash = () => {
         </div>
 
         {/* Quick Select Divider */}
-        <p className="text-[#849bc0] font-bold text-sm tracking-widest mb-6">
+        <p className="text-[#849bc0] font-bold text-base tracking-widest mb-6">
           {t.selectAmount}
         </p>
 

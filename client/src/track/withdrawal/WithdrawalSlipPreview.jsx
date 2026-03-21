@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import WithdrawalSlip from './WithdrawalSlip'; // using the newly created generic slip
 import { useLanguage } from '../../LanguageContext';
 import useSpeech from '../components/useSpeech';
@@ -79,9 +80,15 @@ const WithdrawalSlipPreview = () => {
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col items-center p-8">
         
-        <h2 className="text-[32px] font-semibold text-black mb-8 mt-2">
-          {t.reviewWithdrawalSlip}
-        </h2>
+{/* Title & Back Button */}
+        <div className="w-full max-w-[90rem] flex items-center justify-center relative mb-8 mt-2 px-12">
+          <button onClick={handleEdit} className="absolute left-[3rem] p-2 hover:bg-blue-100 rounded-full transition-colors">
+            <ArrowLeft size={36} className="text-black" />
+          </button>
+          <h2 className="text-[32px] font-semibold text-black">
+            {t.reviewWithdrawalSlip}
+          </h2>
+        </div>
 
         {/* Content Layout: Changed to items-stretch to match heights */}
         <div className="w-full max-w-[90rem] flex items-stretch justify-between gap-12 flex-grow mb-8 px-12">

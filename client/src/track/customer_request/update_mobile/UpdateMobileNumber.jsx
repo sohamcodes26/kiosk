@@ -62,8 +62,8 @@ const handleConfirmChange = () => {
   };
 
   // Reusable styles
-  const labelStyle = "text-[#3b5b99] font-bold text-[11px] tracking-widest uppercase mb-1.5 block";
-  const inputStyle = "border border-gray-300 rounded p-3 text-base outline-none focus:border-[#004b9b] w-full text-gray-800 font-medium mb-4";
+  const labelStyle = "text-[#3b5b99] font-bold text-base tracking-widest uppercase mb-1.5 block";
+  const inputStyle = "border border-gray-300 rounded p-4 text-xl outline-none focus:border-[#004b9b] w-full text-gray-800 font-medium mb-4";
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">

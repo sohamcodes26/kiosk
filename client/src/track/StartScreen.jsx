@@ -126,13 +126,12 @@ const StartScreen = () => {
             Tap Fingerprint to Scan
           </p>
 
-          {/* ── New Customer button (replaces rectangle) ── */}
           <button
-            onClick={() => navigate('/new-customer')}
-            className="flex items-center gap-3 bg-white border-2 border-[#0B4084] text-[#0B4084] font-semibold text-base px-8 py-3 rounded-xl hover:bg-[#0B4084] hover:text-white transition-all shadow-sm active:scale-95"
+            onClick={() => navigate('/brochure')}
+            className="flex items-center gap-3 bg-white border-2 border-[#0B4084] text-[#0B4084] font-semibold text-lg px-10 py-4 rounded-md hover:bg-[#0B4084] hover:text-white transition-all shadow-md active:scale-95"
           >
-            <UserPlus size={20} strokeWidth={2} />
-            New Customer
+            <Layers size={22} strokeWidth={2} />
+            Bank of Maharashtra Brochure
           </button>
 
         </div>

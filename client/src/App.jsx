@@ -23,6 +23,9 @@ import UpdateMobileNumber from "./track/customer_request/update_mobile/UpdateMob
 import RequestATM from "./track/customer_request/request_atm/RequestATM.jsx";
 import RequestChequebook from "./track/customer_request/request_chequebook/RequestChequebook.jsx";
 
+// Brochure
+import BankBrochure from "./track/brochure/BankBrochure.jsx";
+
 function App() {
   return (
     <LanguageProvider>
@@ -53,6 +56,9 @@ function App() {
         <Route path="/update-mobile" element={<UpdateMobileNumber />} />
         <Route path="/request-atm" element={<RequestATM />} />
         <Route path="/request-chequebook" element={<RequestChequebook />} />
+
+        {/* Brochure Route */}
+        <Route path="/brochure" element={<BankBrochure />} />
       </Routes>
     </Router>
     </LanguageProvider>

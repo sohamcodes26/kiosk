@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import LogoutScreen from '../../components/LogoutScreen'; 
+import Header from '../../components/Header'; 
 import { useLanguage } from '../../../LanguageContext';
 import useSpeech from '../../components/useSpeech';
+import axios from "axios";
 
 const RequestChequebook = () => {
   const navigate = useNavigate();
@@ -11,7 +11,6 @@ const RequestChequebook = () => {
   useSpeech(t.requestChequebookTitle);
   
   const [sessionTime, setSessionTime] = useState(0);
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userName = "Soham Kolte"; 
   
   // Selection States
@@ -32,19 +31,25 @@ const RequestChequebook = () => {
     return `${minutes}.${seconds}`;
   };
 
-  const handleBack = () => navigate('/services');
-  const handleLogout = () => setIsLogoutOpen(true);
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!leaves || !reason) {
       alert("Please select the number of leaves and a reason.");
       return;
     }
     
-    console.log(`Requesting ${leaves}-leaf chequebook. Reason: ${reason}`);
-    
-    // Pass the request-chequebook type to the dynamic end session component
-    navigate('/end-session', { state: { type: 'request-chequebook' } });
+    try {
+      await axios.post("http://localhost:8000/api/users/request", {
+        subType: "CHEQUE_BOOK",
+        userId: "demoUser123"
+      });
+
+      console.log(`Requesting ${leaves}-leaf chequebook. Reason: ${reason}`);
+      
+      navigate('/end-session', { state: { type: 'request-chequebook' } });
+    } catch (error) {
+      console.error("Chequebook request error:", error);
+      alert("Request failed. Please try again.");
+    }
   };
 
   // Reusable styles
@@ -59,24 +64,11 @@ const RequestChequebook = () => {
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
-      <LogoutScreen isOpen={isLogoutOpen} onClose={() => setIsLogoutOpen(false)} />
+      <Header userName={userName} />
       
-      {/* Header */}
-      <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
-        <div><h1 className="text-xl font-semibold tracking-wide">{t.welcome}, {userName}</h1></div>
-        <div>
-          <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm">
-            {t.logout}
-          </button>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center p-8 relative">
-        <div className="w-full max-w-3xl flex items-center justify-center relative mb-8 mt-2">
-          <button onClick={handleBack} className="absolute left-0 p-2 hover:bg-blue-100 rounded-full transition-colors">
-            <ArrowLeft size={36} className="text-black" />
-          </button>
+        <div className="w-full max-w-3xl flex items-center justify-center relative mb-8 mt-4">
           <h2 className="text-[34px] font-semibold text-black">{t.requestChequebookTitle}</h2>
         </div>
 

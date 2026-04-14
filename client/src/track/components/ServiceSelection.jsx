@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogoutScreen from './LogoutScreen';
+import Header from './Header';
 import { useLanguage } from '../../LanguageContext';
 import useSpeech from './useSpeech';
 
@@ -9,7 +9,6 @@ const ServiceSelection = () => {
   const { t, language } = useLanguage();
 
   const [sessionTime, setSessionTime] = useState(0);
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userName = "Soham Kolte";
 
   useSpeech(t.selectService);
@@ -27,8 +26,6 @@ const ServiceSelection = () => {
     return `${minutes}.${seconds}`;
   };
 
-  const handleLogout = () => setIsLogoutOpen(true);
-
   const handleServiceClick = (serviceName) => {
     if (serviceName === 'Withdrawal')              navigate('/withdrawal');
     else if (serviceName === 'Cash Deposit')       navigate('/deposit-cash');
@@ -37,12 +34,15 @@ const ServiceSelection = () => {
     else if (serviceName === 'Request ATM Card')   navigate('/request-atm');
     else if (serviceName === 'Request Cheque Book')navigate('/request-chequebook');
     else if (serviceName === 'Update Mobile No.')  navigate('/update-mobile');
+    else if (serviceName === 'Change PIN')         navigate('/change-pin');
+    else if (serviceName === 'Balance Inquiry')    navigate('/balance-inquiry');
+    else if (serviceName === 'Mini Statement')     navigate('/mini-statement');
+    else if (serviceName === 'Bank Statement')     navigate('/full-statement');
+    else if (serviceName === 'Fixed Deposit')      navigate('/fixed-deposit');
   };
 
-  const buttonStyle = "bg-white text-[#0B4084] font-bold py-4 px-2 rounded-md shadow-md border border-gray-200 hover:bg-blue-50 hover:shadow-lg hover:border-blue-300 transition-all active:scale-95 w-full";
-
   /* ── Reusable service button ── */
-  const SvcButton = ({ label, name, color, hoverColor, icon }) => (
+  const SvcButton = ({ label, name, color, icon }) => (
     <button
       onClick={() => handleServiceClick(name)}
       style={{
@@ -53,7 +53,7 @@ const ServiceSelection = () => {
         padding: '14px 18px',
         background: color,
         border: 'none',
-        borderRadius: 0,                      /* square — no rounded corners */
+        borderRadius: 0,
         cursor: 'pointer',
         fontFamily: 'inherit',
         fontSize: 18,
@@ -69,7 +69,6 @@ const ServiceSelection = () => {
       onMouseDown={e => e.currentTarget.style.transform = 'scale(0.98)'}
       onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
     >
-      {/* icon box */}
       <span style={{
         width: 34, height: 34,
         background: 'rgba(255,255,255,0.18)',
@@ -80,7 +79,6 @@ const ServiceSelection = () => {
         {icon}
       </span>
       <span style={{ flex: 1 }}>{label}</span>
-      {/* chevron */}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
         stroke="rgba(255,255,255,0.75)" strokeWidth="2.5" strokeLinecap="square">
         <polyline points="9 18 15 12 9 6"/>
@@ -94,15 +92,14 @@ const ServiceSelection = () => {
       flex: 1,
       background: '#ffffff',
       border: '1.5px solid #cdd8ea',
-      borderTop: `3px solid ${accentColor}`,   /* top accent stripe per card */
+      borderTop: `3px solid ${accentColor}`,
       borderRadius: 0,
       display: 'flex',
       flexDirection: 'column',
-      maxHeight: 420,
+      maxHeight: 480,
       overflow: 'hidden',
       boxShadow: '0 2px 12px rgba(13,42,94,0.08)',
     }}>
-      {/* card header */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -123,7 +120,7 @@ const ServiceSelection = () => {
         </span>
         <span style={{
           fontWeight: 800,
-          fontSize: 17,
+          fontSize: 15,
           color: '#0d1f3c',
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
@@ -131,18 +128,13 @@ const ServiceSelection = () => {
           {headerLabel}
         </span>
       </div>
-
-      {/* divider under header */}
-      <div style={{ height: 1, background: '#dce8f5' }} />
-
-      {/* button list */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: 300,
-        gap: 20,
-        padding: '20px 20px',
+        gap: 12,
+        padding: '20px',
         flex: 1,
+        overflowY: 'auto'
       }}>
         {children}
       </div>
@@ -151,219 +143,86 @@ const ServiceSelection = () => {
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
-      <LogoutScreen
-        isOpen={isLogoutOpen}
-        onClose={() => setIsLogoutOpen(false)}
-      />
+      <Header userName={userName} />
 
-      {/* ── Header ── */}
-      <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md">
-        <h1 className="text-xl font-semibold tracking-wide">
-          {t.welcome}, {userName}
-        </h1>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors"
-        >
-          {t.logout}
-        </button>
-      </header>
-
-      {/* ── Page title ── */}
-      <div style={{
-        padding: '32px 40px 48px',
-        textAlign: 'center',
-      }}>
-        <h2 style={{
-          fontSize: 36,
-          fontWeight: 700,
-          color: '#0d1f3c',
-          letterSpacing: '-0.01em',
-          margin: 0,
-        }}>
+      <div style={{ padding: '24px 40px 32px', textAlign: 'center' }}>
+        <h2 style={{ fontSize: 32, fontWeight: 700, color: '#0d1f3c', margin: 0 }}>
           {t.selectService}
         </h2>
-        {/* rule under title */}
-        <div style={{
-          width: 60, height: 3,
-          background: '#004b9b',
-          margin: '8px auto 0',
-        }} />
+        <div style={{ width: 60, height: 3, background: '#004b9b', margin: '8px auto 0' }} />
       </div>
 
-      {/* ── 3-column cards ── */}
       <main style={{
         flex: 1,
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 400px)',
+        gridTemplateColumns: 'repeat(4, 340px)',
         justifyContent: 'center',
-        gap: 32,
-        padding: '0 32px 24px',
+        gap: 24,
+        padding: '0 24px 24px',
         minHeight: 0,
       }}>
 
-        {/* ── CARD 1 — Withdrawal ── */}
+        {/* CARD 1 — Cash Withdrawal */}
         <Card
           accentColor="#1558d6"
           headerBg="#f0f5ff"
           headerLabel={t.cashTransaction}
-          headerIcon={
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="#1558d6" strokeWidth="1.8" strokeLinecap="square" strokeLinejoin="miter">
-              <rect x="2" y="5" width="20" height="14"/>
-              <line x1="2" y1="10" x2="22" y2="10"/>
-              <line x1="6" y1="10" x2="6" y2="19"/>
-              <line x1="18" y1="10" x2="18" y2="19"/>
-              <circle cx="12" cy="14" r="2" fill="#1558d6" stroke="none"/>
-            </svg>
-          }
+          headerIcon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1558d6" strokeWidth="2"><rect x="2" y="5" width="20" height="14"/><line x1="2" y1="10" x2="22" y2="10"/></svg>}
         >
-          <SvcButton
-            label={t.withdrawal}
-            name="Withdrawal"
-            color="#1558d6"
-            icon={
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <rect x="2" y="6" width="20" height="13"/>
-                <line x1="2" y1="10" x2="22" y2="10"/>
-                <line x1="7" y1="10" x2="7" y2="19"/>
-                <line x1="17" y1="10" x2="17" y2="19"/>
-                <circle cx="12" cy="14" r="2" fill="white" stroke="none"/>
-              </svg>
-            }
-          />
+          <SvcButton label={t.withdrawal} name="Withdrawal" color="#1558d6" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="2" y="6" width="20" height="13"/><circle cx="12" cy="14" r="2" fill="white" stroke="none"/></svg>} />
         </Card>
 
-        {/* ── CARD 2 — Deposit ── */}
+        {/* CARD 2 — Deposit */}
         <Card
           accentColor="#0a7a48"
           headerBg="#f0faf4"
           headerLabel={t.depositTitle}
-          headerIcon={
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="#0a7a48" strokeWidth="1.8" strokeLinecap="square" strokeLinejoin="miter">
-              <rect x="3" y="3" width="18" height="18"/>
-              <line x1="12" y1="16" x2="12" y2="8"/>
-              <polyline points="8 12 12 8 16 12"/>
-              <line x1="7" y1="19" x2="17" y2="19"/>
-            </svg>
-          }
+          headerIcon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a7a48" strokeWidth="2"><rect x="3" y="3" width="18" height="18"/><path d="M12 16V8M8 12l4-4 4 4"/></svg>}
         >
-          <SvcButton
-            label={t.cash}
-            name="Cash Deposit"
-            color="#0a7a48"
-            icon={
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <rect x="2" y="6" width="20" height="13"/>
-                <line x1="2" y1="10" x2="22" y2="10"/>
-                <circle cx="12" cy="14" r="2" fill="white" stroke="none"/>
-              </svg>
-            }
-          />
-          <SvcButton
-            label={t.cheque}
-            name="Cheque Deposit"
-            color="#0a7a48"
-            icon={
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <rect x="2" y="4" width="20" height="16"/>
-                <line x1="7" y1="9" x2="17" y2="9"/>
-                <line x1="7" y1="13" x2="13" y2="13"/>
-              </svg>
-            }
-          />
-          <SvcButton
-            label={t.demandDraft}
-            name="Demand Draft"
-            color="#0a7a48"
-            icon={
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <rect x="4" y="2" width="13" height="20"/>
-                <polyline points="13 2 13 8 17 8"/>
-                <line x1="7" y1="12" x2="13" y2="12"/>
-                <line x1="7" y1="16" x2="11" y2="16"/>
-              </svg>
-            }
-          />
+          <SvcButton label={t.cash} name="Cash Deposit" color="#0a7a48" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="2" y="6" width="20" height="13"/></svg>} />
+          <SvcButton label={t.cheque} name="Cheque Deposit" color="#0a7a48" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="2" y="4" width="20" height="16"/><line x1="7" y1="9" x2="17" y2="9"/></svg>} />
+          <SvcButton label={t.demandDraft} name="Demand Draft" color="#0a7a48" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="4" y="2" width="13" height="20"/></svg>} />
         </Card>
 
-        {/* ── CARD 3 — Customer Request ── */}
+        {/* CARD 3 — Banking Services */}
+        <Card
+          accentColor="#0B4084"
+          headerBg="#eef2ff"
+          headerLabel="BANKING SERVICES"
+          headerIcon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B4084" strokeWidth="2"><rect x="3" y="10" width="18" height="9"/><path d="M3 10V6l9-3 9 3v4"/></svg>}
+        >
+          <SvcButton label="Balance Inquiry" name="Balance Inquiry" color="#0B4084" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>} />
+          <SvcButton label="Mini Statement" name="Mini Statement" color="#0B4084" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>} />
+          <SvcButton label="Bank Statement" name="Bank Statement" color="#0B4084" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="3" width="18" height="18"/><path d="M12 8v8M8 12h8"/></svg>} />
+          <SvcButton label="Fixed Deposit" name="Fixed Deposit" color="#0B4084" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>} />
+        </Card>
+
+        {/* CARD 4 — Customer Request */}
         <Card
           accentColor="#5130c0"
           headerBg="#f5f3ff"
           headerLabel={t.customerRequest}
-          headerIcon={
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="#5130c0" strokeWidth="1.8" strokeLinecap="square" strokeLinejoin="miter">
-              <circle cx="12" cy="7" r="4"/>
-              <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
-            </svg>
-          }
+          headerIcon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5130c0" strokeWidth="2"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg>}
         >
-          <SvcButton
-            label={t.requestAtm}
-            name="Request ATM Card"
-            color="#5130c0"
-            icon={
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <rect x="2" y="5" width="20" height="14"/>
-                <line x1="2" y1="10" x2="22" y2="10"/>
-                <line x1="5" y1="15" x2="9" y2="15"/>
-                <rect x="5" y="13" width="3" height="3" fill="white" stroke="none"/>
-              </svg>
-            }
-          />
-          <SvcButton
-            label={t.requestChequeBook}
-            name="Request Cheque Book"
-            color="#5130c0"
-            icon={
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <rect x="3" y="3" width="13" height="18"/>
-                <rect x="6" y="3" width="13" height="18"/>
-                <line x1="9" y1="8" x2="16" y2="8"/>
-                <line x1="9" y1="12" x2="14" y2="12"/>
-              </svg>
-            }
-          />
-          <SvcButton
-            label={t.updateMobile}
-            name="Update Mobile No."
-            color="#5130c0"
-            icon={
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="#fff" strokeWidth="2" strokeLinecap="square">
-                <rect x="7" y="2" width="10" height="20"/>
-                <line x1="7" y1="6" x2="17" y2="6"/>
-                <line x1="7" y1="18" x2="17" y2="18"/>
-                <circle cx="12" cy="20" r="1" fill="white" stroke="none"/>
-              </svg>
-            }
-          />
+          <SvcButton label={t.requestAtm} name="Request ATM Card" color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="2" y="5" width="20" height="14"/></svg>} />
+          <SvcButton label={t.requestChequeBook} name="Request Cheque Book" color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="3" width="13" height="18"/></svg>} />
+          <SvcButton label={t.updateMobile} name="Update Mobile No." color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="7" y="2" width="10" height="20"/></svg>} />
+          <SvcButton label="Change Secure PIN" name="Change PIN" color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>} />
         </Card>
 
       </main>
 
-      {/* ── Footer ── */}
       <footer className="bg-[#004b9b] text-white px-6 py-2 flex justify-between items-center text-sm shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
         <div className="w-1/3 flex items-center">
           <span className="font-bold tracking-widest bg-white/10 px-2 py-0.5 rounded">
             {formatSessionTime(sessionTime)}
           </span>
         </div>
-        <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
+        <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider uppercase">
           {t.secureSession}
         </div>
         <div className="w-1/3" />
       </footer>
-
     </div>
   );
 };

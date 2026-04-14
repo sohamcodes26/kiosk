@@ -45,6 +45,14 @@ const bankAccountSchema = new mongoose.Schema({
     fingerprintId: {
         type: String,
         default: null
+    },
+    balance: {
+        type: Number,
+        default: 10000 // Starting balance for demo
+    },
+    pin: {
+        type: String,
+        default: "1234"
     }
 }, { timestamps: true });
 

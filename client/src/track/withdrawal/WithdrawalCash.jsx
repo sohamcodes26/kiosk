@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import LogoutScreen from '../components/LogoutScreen';
+import Header from '../components/Header';
 import { useLanguage } from '../../LanguageContext';
 import useSpeech from '../components/useSpeech';
+import axios from "axios"; 
 
 const WithdrawalCash = () => {
+  
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useLanguage(); // Grab the translation dictionary
+  const { t } = useLanguage(); 
   
-  // Custom hook handling the dynamic voice!
   useSpeech(t.enterWithdrawalAmount);
   
-  // Pre-fill amount if it was passed back from the preview screen
   const [amount, setAmount] = useState(location.state?.amount || '');
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -32,56 +30,38 @@ const WithdrawalCash = () => {
     return `${minutes}.${seconds}`;
   };
 
-  const handleLogout = () => {
-    setIsLogoutOpen(true); 
-  };
-
-  const handleBack = () => {
-    navigate('/services');
-  };
-
   const handleQuickSelect = (value) => {
     setAmount(value.toString());
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!amount) {
       alert("Please enter an amount.");
       return;
     }
-    // Pass the current amount to the next screen through the router state
-    navigate('/withdrawal-preview', { state: { amount } });
+    
+    try {
+      await axios.post("http://localhost:8000/api/users/withdraw", {
+        amount: Number(amount),
+        userId: "demoUser123"
+      });
+
+      navigate('/withdrawal-preview', { state: { amount } });
+    } catch (error) {
+      console.error("Withdrawal error:", error);
+      alert("Transaction failed. Please try again.");
+    }
   };
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
-      <LogoutScreen 
-        isOpen={isLogoutOpen} 
-        onClose={() => setIsLogoutOpen(false)} 
-      />
+      <Header userName={userName} />
       
-      {/* Header */}
-      <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
-        <div>
-          <h1 className="text-xl font-semibold tracking-wide">
-            {t.welcome}, {userName}
-          </h1>
-        </div>
-        <div>
-          <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            {t.logout}
-          </button>
-        </div>
-      </header>
-
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col items-center relative p-8">
         
-        {/* Title & Back Button Row */}
+        {/* Title */}
         <div className="w-full max-w-5xl flex items-center justify-center relative mb-12 mt-4">
-          <button onClick={handleBack} className="absolute left-0 p-2 hover:bg-blue-100 rounded-full transition-colors">
-            <ArrowLeft size={36} className="text-black" />
-          </button>
           <h2 className="text-[34px] font-semibold text-black">
             {t.enterWithdrawalAmount}
           </h2>

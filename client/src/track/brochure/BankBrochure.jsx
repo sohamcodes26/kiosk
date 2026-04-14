@@ -161,23 +161,31 @@ const BankBrochure = () => {
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#f4f7f6]">
-      <header className="flex items-center bg-[#0B4084] text-white px-8 py-5 shadow-lg border-b-4 border-[#eab308] z-10 relative">
-        <button 
-          onClick={handleBack} 
-          className="mr-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors active:scale-95"
-          aria-label="Go Back"
-        >
-          <ArrowLeft size={32} className="text-white" />
-        </button>
-        <div className="flex items-center gap-4">
-          <Landmark size={36} className="text-[#eab308]" />
-          <div>
-            <h1 className="text-2xl font-bold tracking-wider uppercase">Bank of Maharashtra</h1>
-            <p className="text-sm text-yellow-100 font-medium tracking-wide">
-              {selectedItem ? selectedItem.title : "One Family One Bank - Official Brochure"}
-            </p>
+      <header className="flex items-center justify-between bg-[#004b9b] text-white px-8 py-5 shadow-lg z-20">
+        <div className="flex items-center gap-5">
+          <button 
+            onClick={handleBack} 
+            className="p-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition-all active:scale-95 border border-white/20"
+            aria-label="Go Back"
+          >
+            <ArrowLeft size={28} className="text-white" />
+          </button>
+          <div className="flex items-center gap-4 border-l border-white/20 pl-6 ml-1">
+            <Landmark size={32} className="text-white opacity-90" />
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight uppercase">Bank of Maharashtra</h1>
+              <p className="text-xs text-blue-100 font-medium tracking-widest opacity-80 uppercase">
+                {selectedItem ? selectedItem.title : "One Family One Bank - Official Brochure"}
+              </p>
+            </div>
           </div>
         </div>
+        {!selectedItem && (
+          <div className="hidden md:block bg-white/10 px-6 py-2 rounded-xl backdrop-blur-sm border border-white/20">
+             <p className="text-[10px] text-blue-100 font-bold uppercase tracking-widest opacity-80">Product Catalog</p>
+             <p className="text-sm font-bold text-white uppercase tracking-tight">Kiosk Edition 2026</p>
+          </div>
+        )}
       </header>
 
       <main className="flex-grow overflow-y-auto relative">

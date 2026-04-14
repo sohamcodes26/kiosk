@@ -96,4 +96,10 @@ dist
 
 # OS metadata
 .DS_Store
-Thumbs.db
+# Diagnostic files
+error_log.txt
+check_db.js
+list_users.js
+test_deposit.js
+test_backend.js
+tmp/

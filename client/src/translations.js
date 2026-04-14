@@ -13,6 +13,10 @@ export const translations = {
     scanPrompt: "Please scan your fingerprint to proceed safely.",
     tapToScan: "Tap Fingerprint to Scan",
     selectLanguage: "Select Your Language",
+    otherLoginOptions: "OR LOGIN WITH PHONE & PIN",
+    phoneNumber: "Phone Number",
+    pin: "PIN",
+    loginAndProceed: "Login & Proceed",
 
     // Service Selection
     selectService: "Please select required service",
@@ -135,6 +139,10 @@ export const translations = {
     scanPrompt: "सुरक्षितपणे पुढे जाण्यासाठी कृपया तुमचा फिंगरप्रिंट स्कॅन करा.",
     tapToScan: "स्कॅन करण्यासाठी फिंगरप्रिंटवर टॅप करा",
     selectLanguage: "आपली भाषा निवडा",
+    otherLoginOptions: "किंवा फोन आणि पिनसह लॉगिन करा",
+    phoneNumber: "फोन नंबर",
+    pin: "पिन (PIN)",
+    loginAndProceed: "लॉगिन करा आणि पुढे जा",
 
     // Service Selection
     selectService: "कृपया आवश्यक सेवा निवडा",

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import LogoutScreen from '../components/LogoutScreen';
+import Header from '../components/Header';
 import { useLanguage } from '../../LanguageContext';
 import useSpeech from '../components/useSpeech';
+import axios from "axios";
 
 const DepositCash = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const DepositCash = () => {
   
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   
   // Check if we have state passed back from the preview screen
   const [accountNumber, setAccountNumber] = useState(location.state?.accountNumber || '');
@@ -38,11 +37,6 @@ const DepositCash = () => {
     const seconds = (timeInSeconds % 60).toString().padStart(2, '0');
     return `${minutes}.${seconds}`;
   };
-
-  const handleLogout = () => {
-    setIsLogoutOpen(true); 
-  };
-  const handleBack = () => navigate('/services');
 
   const handleDepositToSelf = () => {
     setAccountNumber('098765432100');
@@ -87,7 +81,7 @@ const DepositCash = () => {
     return total + (Number(value) * validCount);
   }, 0);
 
-  const handleConfirmDeposit = () => {
+  const handleConfirmDeposit = async () => {
     if (!accountNumber) {
       alert("Please enter a receiver account number.");
       return;
@@ -96,38 +90,30 @@ const DepositCash = () => {
       alert("Please enter the deposit amount.");
       return;
     }
-    // Navigate and pass state
-    navigate('/deposit-preview', { state: { accountNumber, notes } });
+
+    try {
+      await axios.post("http://localhost:8000/api/users/deposit", {
+        amount: Number(totalAmount),
+        userId: "demoUser123"
+      });
+
+      navigate('/deposit-preview', { state: { accountNumber, notes } });
+    } catch (error) {
+      console.error("Deposit error:", error);
+      const errorMsg = error.response?.data?.message || "Transaction failed. Please try again.";
+      alert(`Transaction failed: ${errorMsg}`);
+    }
   };
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
-
-        <LogoutScreen 
-        isOpen={isLogoutOpen} 
-        onClose={() => setIsLogoutOpen(false)} 
-      />
+      <Header userName={userName} />
       
-      {/* Header */}
-      <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
-        <div>
-          <h1 className="text-xl font-semibold tracking-wide">{t.welcome}, {userName}</h1>
-        </div>
-        <div>
-          <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            {t.logout}
-          </button>
-        </div>
-      </header>
-
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col items-center p-8 relative">
         
-        {/* Title & Back Button */}
-        <div className="w-full max-w-5xl flex items-center justify-center relative mb-8 mt-2">
-          <button onClick={handleBack} className="absolute left-0 p-2 hover:bg-blue-100 rounded-full transition-colors">
-            <ArrowLeft size={36} className="text-black" />
-          </button>
+        {/* Title */}
+        <div className="w-full max-w-5xl flex items-center justify-center relative mb-8 mt-4">
           <h2 className="text-[34px] font-semibold text-black">
             {t.enterReceiverDetail}
           </h2>
@@ -163,21 +149,16 @@ const DepositCash = () => {
               <p className="text-[#3b5b99] font-bold text-base tracking-widest uppercase mb-4">
                 {t.amountBreakdown}
               </p>
-              {/* Reduced gap-y from 4 to 3 to save vertical space */}
               <div className="grid grid-cols-2 gap-x-8 gap-y-3">
                 {noteValues.map((val) => {
                   const currentCount = notes[val] === '' ? 0 : Number(notes[val]);
                   
                   return (
-                    // Reduced padding slightly (p-2.5)
                     <div key={val} className="flex items-center justify-between bg-[#ededed] border border-gray-100 p-2.5 rounded-md shadow-sm">
                       <span className="font-semibold text-gray-800 text-base w-14">₹ {val}</span>
                       
                       <div className="flex items-center gap-2.5">
-                        
-                        {/* Editable Input Display */}
                         <style>{`
-                          /* Hides up/down arrows in number inputs */
                           input[type=number]::-webkit-inner-spin-button, 
                           input[type=number]::-webkit-outer-spin-button { 
                             -webkit-appearance: none; 
@@ -185,16 +166,14 @@ const DepositCash = () => {
                           }
                         `}</style>
                         
-                        {/* Slightly scaled down input size */}
                         <input 
                           type="number"
                           value={notes[val]}
                           onChange={(e) => handleNoteInputChange(val, e.target.value)}
                           className="border border-gray-400 text-black bg-white font-bold text-xl w-16 text-center py-1.5 rounded-sm outline-none focus:border-black focus:ring-1 focus:ring-black shadow-inner"
-                          style={{ MozAppearance: 'textfield' }} // Firefox fallback
+                          style={{ MozAppearance: 'textfield' }} 
                         />
 
-                        {/* Minus Button with Disabled State */}
                         <button 
                           onClick={() => updateNoteCount(val, false)}
                           disabled={currentCount <= 0}
@@ -207,7 +186,6 @@ const DepositCash = () => {
                           -
                         </button>
 
-                        {/* Plus Button with Disabled State */}
                         <button 
                           onClick={() => updateNoteCount(val, true)}
                           disabled={currentCount >= MAX_NOTES}

@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogoutScreen from './LogoutScreen';
-import { useLanguage } from '../../LanguageContext'; // <-- Import your context
+import Header from './Header';
+import { useLanguage } from '../../LanguageContext'; 
 
 const LanguageSelection = () => {
   const navigate = useNavigate();
-  // Pull the translation dictionary (t) and the setter function from context
   const { t, setLanguage } = useLanguage(); 
   
   const [sessionTime, setSessionTime] = useState(0);
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
-  
   const userName = "Soham Kolte"; 
 
   // Session Timer Logic
@@ -27,11 +24,6 @@ const LanguageSelection = () => {
     return `${minutes}.${seconds}`;
   };
 
-  const handleLogout = () => {
-    setIsLogoutOpen(true); 
-  };
-
-  // NEW: Update global language state before navigating!
   const handleLanguageSelect = (langCode) => {
     console.log(`Selected language: ${langCode}`);
     setLanguage(langCode); 
@@ -40,28 +32,8 @@ const LanguageSelection = () => {
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
-      <LogoutScreen 
-        isOpen={isLogoutOpen} 
-        onClose={() => setIsLogoutOpen(false)} 
-      />
+      <Header userName={userName} />
       
-      {/* Dynamic Header */}
-      <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md">
-        <div>
-          <h1 className="text-xl font-semibold tracking-wide">
-            {t.welcome}, {userName}  {/* <-- Dynamic Welcome */}
-          </h1>
-        </div>
-        <div>
-          <button 
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors"
-          >
-            {t.logout} {/* <-- Dynamic Logout */}
-          </button>
-        </div>
-      </header>
-
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col items-center justify-center p-6">
         <div className="text-center mb-12">
@@ -76,14 +48,14 @@ const LanguageSelection = () => {
         {/* Language Buttons */}
         <div className="flex gap-8">
           <button 
-            onClick={() => handleLanguageSelect('en')} // Pass 'en'
+            onClick={() => handleLanguageSelect('en')} 
             className="bg-[#145bbf] hover:bg-[#0c4596] text-white text-xl font-medium w-48 py-5 rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.2)] transition-all active:scale-95"
           >
             ENGLISH
           </button>
           
           <button 
-            onClick={() => handleLanguageSelect('mr')} // Pass 'mr'
+            onClick={() => handleLanguageSelect('mr')} 
             className="bg-[#145bbf] hover:bg-[#0c4596] text-white text-xl font-medium w-48 py-5 rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.2)] transition-all active:scale-95"
           >
             मराठी
@@ -99,7 +71,7 @@ const LanguageSelection = () => {
           </span>
         </div>
         <div className="w-1/3 text-center text-blue-100/90 text-xs tracking-wider">
-          {t.secureSession} {/* <-- Dynamic Footer Text */}
+          {t.secureSession}
         </div>
         <div className="w-1/3"></div>
       </footer>
@@ -108,4 +80,4 @@ const LanguageSelection = () => {
   );
 };
 
-export default LanguageSelection;
+export default LanguageSelection;

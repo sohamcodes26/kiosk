@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import LogoutScreen from '../components/LogoutScreen';
+import Header from '../components/Header';
 import { useLanguage } from '../../LanguageContext';
 import useSpeech from '../components/useSpeech';
+import axios from "axios";
 
 const DepositDD = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const DepositDD = () => {
 
   const [sessionTime, setSessionTime] = useState(0); 
   const userName = "Soham Kolte"; 
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   
   // State for form fields
   const [accountNumber, setAccountNumber] = useState(location.state?.accountNumber || '');
@@ -46,25 +45,30 @@ const DepositDD = () => {
     return `${minutes}.${seconds}`;
   };
 
-  const handleLogout = () => {
-    setIsLogoutOpen(true); 
-  };
-  
-  const handleBack = () => navigate('/services');
-
   const handleDepositToSelf = () => {
     setAccountNumber('1234567890123456');
   };
 
-  const handleConfirmDeposit = () => {
+  const handleConfirmDeposit = async () => {
     if (!accountNumber || !ddNumber || !ddAmount || !issuingBank) {
       alert("Please fill in all the details.");
       return;
     }
-    // Pass the state to the preview screen
-    navigate('/deposit-dd-preview', { 
-      state: { accountNumber, ddNumber, ddAmount, issuingBank } 
-    });
+
+    try {
+      await axios.post("http://localhost:8000/api/users/deposit", {
+        amount: Number(ddAmount),
+        userId: "demoUser123"
+      });
+
+      navigate("/deposit-dd-preview", {
+        state: { accountNumber, ddNumber, ddAmount, issuingBank }
+      });
+
+    } catch (error) {
+      console.error("DD deposit error:", error);
+      alert("Transaction failed. Please try again.");
+    }
   };
 
   // Reusable styling variables
@@ -73,31 +77,13 @@ const DepositDD = () => {
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
-      <LogoutScreen 
-        isOpen={isLogoutOpen} 
-        onClose={() => setIsLogoutOpen(false)} 
-      />
+      <Header userName={userName} />
       
-      {/* Header */}
-      <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
-        <div>
-          <h1 className="text-xl font-semibold tracking-wide">{t.welcome}, {userName}</h1>
-        </div>
-        <div>
-          <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors">
-            {t.logout}
-          </button>
-        </div>
-      </header>
-
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col items-center p-8 relative">
         
-        {/* Title & Back Button */}
-        <div className="w-full max-w-5xl flex items-center justify-center relative mb-6 mt-2">
-          <button onClick={handleBack} className="absolute left-0 p-2 hover:bg-blue-100 rounded-full transition-colors">
-            <ArrowLeft size={36} className="text-black" />
-          </button>
+        {/* Title */}
+        <div className="w-full max-w-5xl flex items-center justify-center relative mb-6 mt-4">
           <h2 className="text-[34px] font-semibold text-black">
             {t.enterDdDetail}
           </h2>

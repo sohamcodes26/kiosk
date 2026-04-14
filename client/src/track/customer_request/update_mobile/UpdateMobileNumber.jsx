@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-// Adjust the path to your LogoutScreen and LanguageContext based on folder depth!
-import LogoutScreen from '../../components/LogoutScreen'; 
+import Header from '../../components/Header'; 
 import { useLanguage } from '../../../LanguageContext';
 import useSpeech from '../../components/useSpeech';
+import axios from "axios";
 
 const UpdateMobileNumber = () => {
   const navigate = useNavigate();
@@ -12,7 +11,6 @@ const UpdateMobileNumber = () => {
   useSpeech(t.changePhoneNumberTitle);
   
   const [sessionTime, setSessionTime] = useState(0);
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userName = "Soham Kolte"; 
   
   // Form State
@@ -33,32 +31,37 @@ const UpdateMobileNumber = () => {
     return `${minutes}.${seconds}`;
   };
 
-  const handleBack = () => navigate('/services');
-  const handleLogout = () => setIsLogoutOpen(true);
-
   const handleSendOTP = () => {
     if (mobileNumber.length !== 10) {
       alert("Please enter a valid 10-digit mobile number.");
       return;
     }
     console.log(`Sending OTP to ${mobileNumber}...`);
-    // Here you would typically trigger an API call to send the OTP
   };
 
-const handleConfirmChange = () => {
+const handleConfirmChange = async () => {
     if (!mobileNumber || !otp) {
       alert("Please enter the mobile number and OTP.");
       return;
     }
     
-    // We pass a mock 'oldNumber' here since the kiosk would normally fetch it from the inserted card/account data
-    navigate('/end-session', { 
-      state: { 
-        type: 'update-mobile',
-        oldNumber: '1234567890',
-        newNumber: mobileNumber
-      } 
-    });
+    try {
+      await axios.post("http://localhost:8000/api/users/request", {
+        subType: "MOBILE_UPDATE",
+        userId: "demoUser123"
+      });
+
+      navigate('/end-session', { 
+        state: { 
+          type: 'update-mobile',
+          oldNumber: '1234567890',
+          newNumber: mobileNumber
+        } 
+      });
+    } catch (error) {
+      console.error("Mobile update error:", error);
+      alert("Request failed. Please try again.");
+    }
   };
 
   // Reusable styles
@@ -67,33 +70,13 @@ const handleConfirmChange = () => {
 
   return (
     <div className="flex flex-col h-screen w-full font-sans bg-[#e9eff6]">
-      <LogoutScreen isOpen={isLogoutOpen} onClose={() => setIsLogoutOpen(false)} />
+      <Header userName={userName} />
       
-      {/* Header */}
-      <header className="flex justify-between items-center bg-[#004b9b] text-white px-6 py-4 shadow-md z-10">
-        <div>
-          <h1 className="text-xl font-semibold tracking-wide">
-            {t.welcome}, {userName}
-          </h1>
-        </div>
-        <div>
-          <button 
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-1.5 rounded shadow-sm transition-colors"
-          >
-            {t.logout}
-          </button>
-        </div>
-      </header>
-
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col items-center p-8 relative">
         
-        {/* Title & Back Button */}
-        <div className="w-full max-w-2xl flex items-center justify-center relative mb-8 mt-2">
-          <button onClick={handleBack} className="absolute left-0 p-2 hover:bg-blue-100 rounded-full transition-colors">
-            <ArrowLeft size={36} className="text-black" />
-          </button>
+        {/* Title */}
+        <div className="w-full max-w-2xl flex items-center justify-center relative mb-8 mt-4">
           <h2 className="text-[34px] font-semibold text-black">
             {t.changePhoneNumberTitle}
           </h2>
@@ -109,7 +92,7 @@ const handleConfirmChange = () => {
             maxLength={10}
             placeholder={t.enter10Digit}
             value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))} // Restrict to numbers only
+            onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))} 
             className={inputStyle}
           />
           
@@ -127,7 +110,7 @@ const handleConfirmChange = () => {
             maxLength={6}
             placeholder={t.enterOtpPlaceholder}
             value={otp}
-            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} // Restrict to numbers only
+            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} 
             className={inputStyle}
           />
 

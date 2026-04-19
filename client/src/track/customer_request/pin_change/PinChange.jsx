@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/Header";
@@ -86,7 +87,14 @@ const PinChange = () => {
             <Header />
             <main className="flex-grow flex items-center justify-center p-6">
                 <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl p-10 text-center border-t-8 border-[#004b9b]">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-1">Change Secure PIN</h2>
+                    
+                        <button 
+                            onClick={() => navigate('/services')} 
+                            className="absolute left-[3rem] p-2 hover:bg-blue-100 rounded-full transition-colors z-10"
+                        >
+                            <ArrowLeft size={36} className="text-gray-700" />
+                        </button>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-1">Change Secure PIN</h2>
                     <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-8">Step {step} of 3</p>
 
                     <div className="space-y-5">

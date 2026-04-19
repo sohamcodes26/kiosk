@@ -34,7 +34,6 @@ const ServiceSelection = () => {
     else if (serviceName === 'Request ATM Card')   navigate('/request-atm');
     else if (serviceName === 'Request Cheque Book')navigate('/request-chequebook');
     else if (serviceName === 'Update Mobile No.')  navigate('/update-mobile');
-    else if (serviceName === 'Change PIN')         navigate('/change-pin');
     else if (serviceName === 'Balance Inquiry')    navigate('/balance-inquiry');
     else if (serviceName === 'Mini Statement')     navigate('/mini-statement');
     else if (serviceName === 'Bank Statement')     navigate('/full-statement');
@@ -207,7 +206,6 @@ const ServiceSelection = () => {
           <SvcButton label={t.requestAtm} name="Request ATM Card" color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="2" y="5" width="20" height="14"/></svg>} />
           <SvcButton label={t.requestChequeBook} name="Request Cheque Book" color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="3" width="13" height="18"/></svg>} />
           <SvcButton label={t.updateMobile} name="Update Mobile No." color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="7" y="2" width="10" height="20"/></svg>} />
-          <SvcButton label="Change Secure PIN" name="Change PIN" color="#5130c0" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>} />
         </Card>
 
       </main>

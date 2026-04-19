@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Header';
@@ -50,8 +51,15 @@ const BalanceInquiry = () => {
             
             <main className="flex-grow flex flex-col items-center p-8 relative">
                 {/* Title */}
-                <div className="w-full max-w-4xl flex items-center justify-center relative mb-6 mt-2">
-                    <h2 className="text-3xl font-bold text-gray-800">
+                <div className="w-full max-w-[90rem] flex items-center justify-center relative mb-8 mt-4 px-12">
+                    
+                        <button 
+                            onClick={() => navigate('/services')} 
+                            className="absolute left-[3rem] p-2 hover:bg-blue-100 rounded-full transition-colors z-10"
+                        >
+                            <ArrowLeft size={36} className="text-gray-700" />
+                        </button>
+                        <h2 className="text-3xl font-bold text-gray-800">
                         Balance Inquiry
                     </h2>
                 </div>

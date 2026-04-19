@@ -110,21 +110,7 @@ const StartScreen = () => {
                     <Phone size={24} className="text-[#004b9b] group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <p className="text-gray-400 text-[10px] font-bold uppercase mb-0.5">Method 01</p>
                     <p className="text-gray-800 font-bold text-base">Phone Login</p>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => navigate('/manual-login', { state: { mode: 'pin' } })}
-                  className="w-56 group bg-white border-2 border-gray-100 p-4 rounded-2xl flex items-center gap-4 hover:border-[#004b9b] hover:shadow-lg transition-all active:scale-[0.97] text-left"
-                >
-                  <div className="bg-blue-50 p-2.5 rounded-xl group-hover:bg-[#004b9b] transition-colors">
-                    <Lock size={24} className="text-[#004b9b] group-hover:text-white transition-colors" />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-[10px] font-bold uppercase mb-0.5">Method 02</p>
-                    <p className="text-gray-800 font-bold text-base">PIN Login</p>
                   </div>
                 </button>
             </div>

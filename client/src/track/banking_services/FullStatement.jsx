@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Header';
 import { useLanguage } from '../../LanguageContext';
-import { Calendar, Search, FileText } from 'lucide-react';
+import { Calendar, Search, FileText , ArrowLeft } from 'lucide-react';
 
 const FullStatement = () => {
     const navigate = useNavigate();
@@ -51,8 +51,15 @@ const FullStatement = () => {
             
             <main className="flex-grow flex flex-col items-center p-6 relative overflow-hidden">
                 {/* Title */}
-                <div className="w-full max-w-5xl flex items-center justify-center relative mb-6 mt-1">
-                    <h2 className="text-2xl font-bold text-gray-800">
+                <div className="w-full max-w-[90rem] flex items-center justify-center relative mb-8 mt-4 px-12">
+                    
+                        <button 
+                            onClick={() => navigate('/services')} 
+                            className="absolute left-[3rem] p-2 hover:bg-blue-100 rounded-full transition-colors z-10"
+                        >
+                            <ArrowLeft size={36} className="text-gray-700" />
+                        </button>
+                        <h2 className="text-2xl font-bold text-gray-800">
                         Account Statement
                     </h2>
                 </div>

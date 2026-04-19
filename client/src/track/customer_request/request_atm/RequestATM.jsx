@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header'; 
 import { useLanguage } from '../../../LanguageContext';
@@ -69,8 +70,15 @@ const RequestATM = () => {
       
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center p-8 relative">
-        <div className="w-full max-w-3xl flex items-center justify-center relative mb-8 mt-4">
-          <h2 className="text-[34px] font-semibold text-black">{t.requestAtmTitle}</h2>
+        <div className="w-full max-w-[90rem] flex items-center justify-center relative mb-8 mt-4 px-12">
+          
+                        <button 
+                            onClick={() => navigate('/services')} 
+                            className="absolute left-[3rem] p-2 hover:bg-blue-100 rounded-full transition-colors z-10"
+                        >
+                            <ArrowLeft size={36} className="text-gray-700" />
+                        </button>
+                        <h2 className="text-[34px] font-semibold text-black">{t.requestAtmTitle}</h2>
         </div>
 
         {/* Form Card */}

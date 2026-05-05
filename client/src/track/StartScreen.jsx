@@ -152,7 +152,7 @@ const StartScreen = () => {
             onClick={() => navigate('/admin/login')}
             className="text-[10px] py-1 px-3 border border-white/30 rounded-md hover:bg-white/10 transition-colors"
           >
-            Terminal Admin
+            Admin
           </button>
         </div>
       </footer>
